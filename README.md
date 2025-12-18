@@ -78,13 +78,21 @@ Then visit: http://localhost:8000
 - `CNAME` - Custom domain configuration for GitHub Pages
 - `favicon.png` / `netcloak-icon.png` - App icon and favicon
 - `DECISIONS.md` - Business strategy and decisions documentation
+- `TECH-STACK.md` - Technology choices and architecture documentation
 - `README.md` - This file
 
-## Business Documentation
+## Project Documentation
 
-See `DECISIONS.md` for the complete NetCloak business strategy, including:
+**Business Strategy:** See `DECISIONS.md`
 - Target market (Philippines mobile phone shops)
 - Pricing structure ($0.75 wholesale, ₱99-149 retail)
 - Payment processing (Wise Business)
 - Risk mitigation and abuse prevention
 - Growth roadmap and next steps
+
+**Technology Stack:** See `TECH-STACK.md`
+- Backend: Go + PostgreSQL + WireGuard
+- Frontend: Go templates + Tailwind + Alpine.js
+- Mobile: Flutter
+- Infrastructure: Contabo VPS + nginx + systemd
+- MVP development roadmap (8 weeks)
