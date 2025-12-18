@@ -46,8 +46,8 @@ This document outlines key strategic decisions for the NetCloak wholesale VPN pl
 - Points never expire (excluding promotional points)
 
 ### Cost Structure
-- **Infrastructure cost:** $0.0198 per account/month
-- **Platform margin:** 97.4% ($0.7302 profit per subscriber)
+- **Infrastructure cost:** $0.0239 per account/month (Contabo VPS 20)
+- **Platform margin:** 96.8% ($0.7261 profit per subscriber)
 - **Shop margin flexibility:** Can charge ₱99-149/month retail
 
 ### Economics Example (50 subscribers)
@@ -157,24 +157,85 @@ Shop profit:   ₱2,800/month passive income
 
 ## Technical Specifications
 
-### Service Limits (MVP)
-- **Speed cap:** 5 Mbps (acceptable for mobile usage)
-- **Bandwidth cap:** 50 GB/month
-- **Device limit:** 2 devices maximum
-- **Concurrent connections:** 1 at a time
+### Service Tiers
+
+**Fast Plan (MVP - Default):**
+- **Speed:** Up to 15 Mbps
+- **Data cap:** 5 GB per day (resets daily at midnight UTC)
+- **Monthly equivalent:** ~150 GB/month if maxed daily
+- **Device installations:** Up to 2 devices
+- **Concurrent connections:** 1 device at a time
 - **Platform support:** Mobile-only (Android/iOS)
+- **Wholesale price:** $0.75/month
+- **Suggested retail:** ₱99-149/month
+
+**Premium Plan (Post-MVP):**
+- **Speed:** Up to 40 Mbps
+- **Data cap:** 15 GB per day (resets daily at midnight UTC)
+- **Monthly equivalent:** ~450 GB/month if maxed daily
+- **Device installations:** Up to 2 devices
+- **Concurrent connections:** 1 device at a time
+- **Platform support:** Mobile-only (Android/iOS)
+- **Wholesale price:** $1.50/month
+- **Suggested retail:** ₱199-249/month
+
+### Why These Limits?
+
+**Fast Plan - Speed (Up to 15 Mbps):**
+- ✅ Fast enough for HD streaming (Netflix HD = 5 Mbps, YouTube 1080p = 5 Mbps)
+- ✅ Smooth video calls and browsing
+- ✅ Feels "premium" not "budget"
+- ✅ Balances quality with infrastructure cost
+
+**Fast Plan - Daily Cap (5 GB/day):**
+- ✅ Generous for typical mobile usage (1-2 GB/day average)
+- ✅ Prevents torrent abuse (can't download massive files)
+- ✅ Daily reset feels generous (fresh start every day)
+- ✅ Natural load balancing (prevents sustained heavy bandwidth usage)
+- ✅ Better UX than monthly cap (no surprise "out of data" at month-end)
+
+**Real-world usage covered (Fast Plan):**
+- Browsing/social media all day: 500 MB/day ✅
+- YouTube HD (4+ hours): 4 GB/day ✅
+- Netflix HD (4+ hours): 4 GB/day ✅
+- Music streaming (all day): 200 MB/day ✅
+- Video calls (2+ hours): 1 GB/day ✅
+
+**Single Concurrent Connection:**
+- ✅ Prevents account sharing abuse
+- ✅ Allows user to switch between phone/tablet
+- ✅ Standard practice for consumer VPN services
+- ✅ Reduces server load
 
 ### Infrastructure
+
+**Fast Plan:**
 - **VPN Protocol:** WireGuard + encrypted WebSockets
 - **Application Stack:** Go-based (netcloak-edge, netcloak-engine)
 - **Memory footprint:** <100MB RAM per application
 - **Server capacity:** 200 accounts per VPS
-- **Hosting:** Contabo VPS 10 ($3.96/month)
+- **Hosting:** Contabo Cloud VPS 20 ($4.77/month)
+- **Port speed:** 300 Mbit/s
+- **Specifications:** 6 vCPU cores, 12 GB RAM, 100 GB NVMe storage
+- **Cost per user:** $4.77 ÷ 200 = $0.0239/user/month
+- **Platform margin:** 96.8%
 
-### Deferred Features
-- **Burst capability:** Post-MVP (technical complexity)
-- **Desktop support:** Never (mobile-only reduces abuse by 85%)
-- **Variable speed tiers:** Not in MVP (keep simple)
+**Premium Plan (Future):**
+- **Hosting:** Contabo Cloud VPS 30 ($12.00/month)
+- **Port speed:** 600 Mbit/s
+- **Server capacity:** 100 accounts per VPS (higher quality guarantee)
+- **Cost per user:** $12.00 ÷ 100 = $0.12/user/month
+- **Platform margin:** 92.0%
+
+### Deferred Features (Post-MVP)
+
+**Not in initial launch:**
+- Premium tier (will add after validating Fast plan demand)
+
+**Not Planned:**
+- ❌ **Desktop support:** Never (mobile-only reduces abuse by 85%)
+- ❌ **Unlimited data:** Never (prevents abuse, maintains quality)
+- ❌ **Multiple concurrent connections:** Never (abuse prevention)
 
 ---
 
@@ -291,7 +352,7 @@ Shop profit:   ₱2,800/month passive income
 **Messaging Focus:** Recurring revenue opportunity (profit-driven, professional)
 
 **Value Proposition:**
-> "Add ₱2,800-4,000/month recurring revenue to your phone shop. Bundle VPN with phone sales, collect monthly subscriptions. We handle infrastructure, you keep the profits."
+> "Add ₱2,800-4,000/month recurring revenue to your phone shop. Offer fast VPN service (up to 15 Mbps, 5 GB daily data) bundled with phone sales. We handle infrastructure, you keep the profits."
 
 ### Marketing Channels (Phase by Phase)
 
@@ -327,6 +388,12 @@ Shop profit:   ₱2,800/month passive income
 Your shop already sells phones. Now earn passive monthly income
 from every customer—zero inventory, no technical work.
 
+Service Features:
+✅ Fast: Up to 15 Mbps speed
+✅ Generous: 5 GB daily data
+✅ Quality: Perfect for streaming and browsing
+
+Your Economics:
 ✅ Wholesale cost: ₱43/customer/month
 ✅ Retail price: ₱99-149/month
 ✅ Your profit: ₱56-106 per customer
