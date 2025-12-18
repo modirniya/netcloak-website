@@ -163,8 +163,7 @@ Shop profit:   ₱2,800/month passive income
 - **Speed:** Up to 15 Mbps
 - **Data cap:** 5 GB per day (resets daily at midnight UTC)
 - **Monthly equivalent:** ~150 GB/month if maxed daily
-- **Device installations:** Up to 2 devices
-- **Concurrent connections:** 1 device at a time
+- **Device limit:** 1 device per account (backend enforced)
 - **Platform support:** Mobile-only (Android/iOS)
 - **Wholesale price:** $0.75/month
 - **Suggested retail:** ₱99-149/month
@@ -173,8 +172,7 @@ Shop profit:   ₱2,800/month passive income
 - **Speed:** Up to 40 Mbps
 - **Data cap:** 15 GB per day (resets daily at midnight UTC)
 - **Monthly equivalent:** ~450 GB/month if maxed daily
-- **Device installations:** Up to 2 devices
-- **Concurrent connections:** 1 device at a time
+- **Device limit:** 1 device per account (backend enforced)
 - **Platform support:** Mobile-only (Android/iOS)
 - **Wholesale price:** $1.50/month
 - **Suggested retail:** ₱199-249/month
@@ -201,11 +199,12 @@ Shop profit:   ₱2,800/month passive income
 - Music streaming (all day): 200 MB/day ✅
 - Video calls (2+ hours): 1 GB/day ✅
 
-**Single Concurrent Connection:**
-- ✅ Prevents account sharing abuse
-- ✅ Allows user to switch between phone/tablet
-- ✅ Standard practice for consumer VPN services
-- ✅ Reduces server load
+**Single Device Enforcement:**
+- ✅ 1 account = 1 device only (normal usage)
+- ✅ Backend prevents same config from connecting on multiple devices simultaneously
+- ✅ Prevents account sharing abuse (can't share config with friends/family)
+- ✅ Reduces server load and maintains quality for all users
+- ⚠️ Technical note: Same config file COULD be installed on multiple devices, but backend enforces only 1 active connection at a time
 
 ### Infrastructure
 
@@ -226,6 +225,29 @@ Shop profit:   ₱2,800/month passive income
 - **Server capacity:** 100 accounts per VPS (higher quality guarantee)
 - **Cost per user:** $12.00 ÷ 100 = $0.12/user/month
 - **Platform margin:** 92.0%
+
+### Backend Enforcement Requirements
+
+**Single Device Connection Control:**
+- netcloak-engine must track active connections per subscriber config
+- When connection attempt occurs:
+  1. Check if config already has active connection
+  2. If yes: Reject new connection attempt (return error: "Already connected on another device")
+  3. If no: Allow connection and mark config as active
+- When connection disconnects: Mark config as inactive (available for reconnection)
+- Store minimal metadata: config ID, connection timestamp, IP address (for abuse monitoring)
+
+**Daily Data Cap Enforcement:**
+- Track data usage per subscriber per day (reset at midnight UTC)
+- When subscriber reaches 5 GB (Fast) or 15 GB (Premium):
+  1. Throttle connection to near-zero bandwidth
+  2. Show "Daily limit reached. Resets at midnight UTC" message
+  3. Disconnect after 5 minutes
+- Reset counter at midnight UTC automatically
+
+**Speed Limiting:**
+- Enforce 15 Mbps (Fast) or 40 Mbps (Premium) per subscriber connection
+- No burst capability (flat rate enforcement)
 
 ### Deferred Features (Post-MVP)
 
