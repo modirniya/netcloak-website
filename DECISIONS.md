@@ -199,12 +199,13 @@ Shop profit:   ₱2,800/month passive income
 - Music streaming (all day): 200 MB/day ✅
 - Video calls (2+ hours): 1 GB/day ✅
 
-**Single Device Enforcement:**
-- ✅ 1 account = 1 device only (normal usage)
-- ✅ Backend prevents same config from connecting on multiple devices simultaneously
-- ✅ Prevents account sharing abuse (can't share config with friends/family)
+**Single Active Connection:**
+- ✅ Same config can be installed on multiple devices (phone + tablet is fine)
+- ✅ Only 1 device can be connected at a time
+- ✅ User switches devices by disconnecting from one, connecting from another
+- ✅ Simple enforcement: If already connected, new connection attempt gets error message
+- ✅ Prevents account sharing across different people
 - ✅ Reduces server load and maintains quality for all users
-- ⚠️ Technical note: Same config file COULD be installed on multiple devices, but backend enforces only 1 active connection at a time
 
 ### Infrastructure
 
