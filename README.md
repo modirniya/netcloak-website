@@ -96,3 +96,12 @@ Then visit: http://localhost:8000
 - Mobile: Flutter
 - Infrastructure: Contabo VPS + nginx + systemd
 - MVP development roadmap (8 weeks)
+
+**System Architecture:** See `ARCHITECTURE.md`
+- Complete technical architecture and design
+- Component specifications (netcloak-admin, netcloak-engine, netcloak-edge)
+- Database schema (PostgreSQL + Redis)
+- Multi-server coordination and abuse prevention
+- API specifications and critical workflows
+- Security model and minimalistic data collection
+- Migration path from PoC to production system
