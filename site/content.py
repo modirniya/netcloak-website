@@ -693,3 +693,325 @@ PAGES["/support/"] = {
         ]),
     ],
 }
+
+
+# ==================================================================================================
+# Blog — three launch articles. Each answers a question the search results pose and links to the
+# product page it supports. Blocks are the same kinds PAGES uses; "p" text is raw HTML so a source
+# can be linked inline where a fact is not ours.
+# ==================================================================================================
+
+WG_KNOWN_LIMITS = "https://www.wireguard.com/known-limitations/"
+WG_PROTOCOL = "https://www.wireguard.com/protocol/"
+WG_PAPER = "https://www.wireguard.com/papers/wireguard.pdf"
+WG_FORMAL = "https://www.wireguard.com/formal-verification/"
+WG_PERF = "https://www.wireguard.com/performance/"
+NOISE_URL = "https://noiseprotocol.org/"
+PLAY_VPN_POLICY = "https://support.google.com/googleplay/android-developer/answer/12564964"
+PLAY_AD_ID_HELP = "https://support.google.com/googleplay/answer/3405269"
+PROTON_FREE_MONEY = "https://protonvpn.com/blog/how-do-free-vpns-make-money"
+NORTON_FREE_SAFE = "https://us.norton.com/blog/vpn/are-free-vpns-safe"
+
+BLOG_TITLE = "Blog · NetCloak VPN"
+BLOG_DESC = ("Plain answers about WireGuard, what makes a VPN protocol safe, and how a free VPN "
+             "pays for itself. Written by the people who run NetCloak, dated, and kept current.")
+
+ARTICLES = {}
+
+ARTICLES["/blog/what-is-wireguard/"] = {
+    "title": "What is WireGuard, and what does it mean for your phone? · NetCloak VPN",
+    "desc": ("WireGuard is a VPN protocol and the software that implements it. What that means on "
+             "an Android phone: battery, roaming between wifi and mobile, and the one thing an app "
+             "has to watch for."),
+    "eyebrow": "WireGuard, explained",
+    "h1": "What is WireGuard, and what does it mean for your phone?",
+    "lede": ("Most explanations of WireGuard® were written for people running servers. This one is "
+             "for the person holding a phone."),
+    "published": "2026-09-19",
+    "og": ("WireGuard, explained", "What is WireGuard,\nand what does it\nmean for your phone?",
+           "The protocol, the cryptography by name, and the\nmobile consequences nobody writes about."),
+    "body": [
+        ("p", f'WireGuard® is a VPN protocol and the software that implements it, created by Jason A. '
+              f'Donenfeld and included in the Linux kernel since version 5.6. A protocol is the set of '
+              f'rules two computers follow to build an encrypted tunnel between them; the software is '
+              f'the code that follows those rules. WireGuard is unusual in that the '
+              f'<a href="{WG_PAPER}">rules fit in a short paper</a> and the reference code is small '
+              f'enough to read in an afternoon, which is the property everything else here follows from.'),
+        ("h2", "A protocol is not an app"),
+        ("p", "When an app such as NetCloak says it uses WireGuard, it means the tunnel between your "
+              "phone and the server speaks WireGuard. The app around that tunnel, with its buttons, "
+              "its session clock and its ads, is the app maker's own work. Two apps can both use "
+              "WireGuard and behave nothing alike, and the protocol says nothing about what the "
+              "operator keeps on the server at the far end. Those are separate questions, and this "
+              "article is only about the first one."),
+        ("h2", "Why the size of the code matters"),
+        ("p", f'The Linux implementation of WireGuard is a few thousand lines of code. The protocols '
+              f'it replaced run to hundreds of thousands. That is not a boast about elegance; it is a '
+              f'statement about who can check it. A security researcher can read the whole of '
+              f'WireGuard and hold it in their head, which is why it was reviewed thoroughly enough to '
+              f'be accepted into the kernel that runs most of the internet. The project lists the '
+              f'<a href="{WG_FORMAL}">formal verification work</a> done on the protocol itself.'),
+        ("h2", "The cryptography, by name"),
+        ("p", f'WireGuard does not negotiate ciphers. It uses one fixed set, chosen for being fast on '
+              f'ordinary processors without special hardware, which is exactly the processor in a '
+              f'phone. The <a href="{WG_PROTOCOL}">protocol page</a> lists them; here is what each does.'),
+        ("ul", [
+            f'<strong>Noise framework.</strong> The <a href="{NOISE_URL}">Noise</a> handshake pattern '
+            f'that lets two parties who know each other\'s public keys agree on a shared secret in one '
+            f'round trip.',
+            '<strong>Curve25519.</strong> The elliptic curve used for that key agreement. Your phone '
+            'and the server each generate a private key, exchange public keys, and arrive at the '
+            'same secret without ever sending it.',
+            '<strong>ChaCha20-Poly1305.</strong> ChaCha20 scrambles every packet with that secret; '
+            'Poly1305 stamps each packet with a check so a tampered packet is thrown away rather '
+            'than decrypted. On a phone this runs faster than AES without a hardware helper.',
+            '<strong>BLAKE2s.</strong> The hash function used inside the handshake to mix keys and '
+            'derive new ones.',
+        ]),
+        ("h2", "What a handshake every two minutes means for your battery"),
+        ("p", "WireGuard rotates its session keys by performing a fresh handshake roughly every two "
+              "minutes while traffic flows, and only when traffic flows. If your phone is idle, so is "
+              "the tunnel: no keepalive chatter, no timers waking the radio. That is why a WireGuard "
+              "tunnel left connected overnight costs noticeably less battery than the older designs "
+              "that held a session open with constant heartbeats. The project's own "
+              f'<a href="{WG_PERF}">performance page</a> covers throughput; the battery effect on a '
+              'phone comes from the silence.'),
+        ("h2", "Roaming: wifi to mobile without dropping"),
+        ("p", "Older VPN protocols bind a tunnel to your IP address, so when your phone leaves the "
+              "wifi and picks up mobile data the tunnel breaks and has to be rebuilt. WireGuard "
+              "identifies you by your public key, not your address. When the phone moves networks, the "
+              "next encrypted packet simply arrives from a new address and the server updates its "
+              "notion of where you are. From the phone's side, the tunnel never went away."),
+        ("h2", "The silent tunnel: the one thing an app has to watch"),
+        ("p", "That same design has a consequence that most VPN apps handle badly. WireGuard has no "
+              "concept of a connection being \"up\" or \"down\"; there is only the last time a "
+              "handshake succeeded. If the server removes your key, or the network quietly stops "
+              "delivering packets, the tunnel on your phone stays configured and keeps reporting "
+              "itself as connected while carrying nothing. The protocol will never tell the app. The "
+              "app has to watch the handshake age itself and decide when silence has gone on too "
+              "long. NetCloak does exactly that: when a tunnel has not handshaked for three minutes on "
+              "a network that is otherwise working, it ends the session and tells you, rather than "
+              "showing a green shield over a dead connection."),
+        ("qa", "What's the difference between VPN and WireGuard?",
+         "A VPN is the thing you want: an encrypted tunnel that carries your traffic to another "
+         "computer before it reaches the internet. WireGuard is one way of building that tunnel, "
+         "alongside OpenVPN and IKEv2. Every WireGuard app is a VPN; not every VPN uses WireGuard."),
+        ("h2", "What WireGuard does not do"),
+        ("p", f'It is worth being as exact about the limits as about the strengths, and the project '
+              f'is, on its <a href="{WG_KNOWN_LIMITS}">Known Limitations page</a>.'),
+        ("ul", [
+            "<strong>It does not make you anonymous.</strong> The server at the far end sees your "
+            "real address, because it has to send packets back to you. What that server keeps is "
+            "the operator's decision, not the protocol's.",
+            "<strong>It does not hide that you are using a VPN.</strong> WireGuard packets have a "
+            "recognisable shape on the wire. Anyone watching your connection can tell a tunnel is "
+            "there, even though they cannot see inside it.",
+            "<strong>It is not post-quantum by default.</strong> Curve25519 would not survive a "
+            "large quantum computer. The protocol has an optional pre-shared key to add a "
+            "quantum-resistant layer, which most consumer apps, NetCloak included, do not use today.",
+        ]),
+        ("h2", "How NetCloak uses it"),
+        ("p", "NetCloak ships the official WireGuard tunnel library for Android and nothing else: no "
+              "config files to import, no QR codes, no second protocol to fall back to. When you tap "
+              "connect, the app generates a fresh key for that session, the server hands back the "
+              "tunnel settings, and the tunnel is up. When the session ends the key is thrown away. "
+              "The rest of what the app does around the tunnel, the timed sessions and the clock, is "
+              "described on the <a href=\"/wireguard/\">WireGuard page</a> and "
+              "<a href=\"/how-it-works/\">how it works</a>."),
+    ],
+}
+
+ARTICLES["/blog/is-wireguard-safe/"] = {
+    "title": "Is WireGuard safe? · NetCloak VPN",
+    "desc": ("Yes, for what it is designed to do. What safe means for a VPN protocol, what has been "
+             "proved about WireGuard, and the specific limits the project itself publishes."),
+    "eyebrow": "WireGuard, examined",
+    "h1": "Is WireGuard safe?",
+    "lede": ("A one-word answer would be dishonest in both directions. Here is what has been proved, "
+             "what has not, and where the real risk sits."),
+    "published": "2026-09-19",
+    "og": ("WireGuard, examined", "Is WireGuard\nsafe?",
+           "What has been proved, what has not,\nand where the real risk actually sits."),
+    "body": [
+        ("p", "Yes: WireGuard® is safe for what it is designed to do, which is to carry your traffic "
+              "to a server you have chosen so that nobody in between can read or alter it. The limits "
+              "below are real, published by the project itself, and none of them is a hole in that "
+              "promise. The risk that matters most is not in the protocol at all."),
+        ("h2", "What \"safe\" means for a VPN protocol"),
+        ("p", "Three things. Confidentiality: nobody between your phone and the server can read the "
+              "traffic. Integrity: nobody can change it in transit without the change being detected "
+              "and the packet discarded. Authentication: your phone is talking to the server it "
+              "thinks it is, and the server knows which key it is talking to. A protocol that delivers "
+              "all three is doing its job. Whether the server at the far end is trustworthy is a "
+              "different question, covered at the end."),
+        ("h2", "What has been proved"),
+        ("p", f'WireGuard\'s handshake is built on the <a href="{NOISE_URL}">Noise protocol '
+              f'framework</a>, and the project publishes '
+              f'<a href="{WG_FORMAL}">formal verification</a> of the protocol: machine-checked proofs '
+              f'that the handshake provides the properties above, including forward secrecy, so that '
+              f'a key stolen tomorrow does not decrypt traffic captured today. Very few VPN protocols '
+              f'have that. The <a href="{WG_PAPER}">original paper</a> describes the design and the '
+              f'reasoning behind each choice.'),
+        ("h2", "Forward secrecy, in one paragraph"),
+        ("p", "The property people most often mean by \"safe\" without naming it is this: if "
+              "someone records your encrypted traffic today and steals a key tomorrow, can they go "
+              "back and read what they recorded? With WireGuard, no. Each session's traffic keys are "
+              "derived during the handshake from fresh, short-lived values, and the handshake repeats "
+              "about every two minutes, so a compromised long-term key unlocks nothing that was "
+              "captured before. Recorded ciphertext stays ciphertext. That is forward secrecy, and it "
+              "is one of the properties the published proofs cover."),
+        ("h2", "Why a small codebase is a safety feature"),
+        ("p", "Proofs cover the design. Code review covers the implementation, and the implementation "
+              "is small enough that it has actually been reviewed: a few thousand lines, accepted "
+              "into the Linux kernel after scrutiny from the people who maintain it. Bugs in "
+              "cryptographic software historically live in the parts nobody read. WireGuard has very "
+              "few parts nobody read."),
+        ("p", "Size also changes what a bug can be. A protocol that negotiates between dozens of "
+              "cipher suites can be tricked into choosing a weak one; several well-known attacks on "
+              "older VPN and TLS stacks worked exactly that way. WireGuard has one suite and no "
+              "negotiation, so that whole class of attack has nothing to attack. If one of its "
+              "primitives is ever broken, the fix is a new protocol version, not a configuration "
+              "flag that some servers forget to set."),
+        ("h2", "What \"safe\" does not cover"),
+        ("p", "A tunnel protects the path, not the endpoints. WireGuard does nothing about a "
+              "malicious app on your phone, a phishing page you log in to, or a website that already "
+              "knows who you are because you signed in. It also does not hide your traffic from the "
+              "VPN server, which decrypts it in order to send it onward. Anyone who tells you a VPN "
+              "protocol makes you safe online, full stop, is selling something. It makes one specific "
+              "thing safe: the wire between you and a server you chose."),
+        ("qa", "What are the downsides of using WireGuard VPN?",
+         "Five, and the project lists them itself. It does not disguise its traffic, so an observer "
+         "can tell you are using a VPN. Its cryptography is fixed rather than negotiated, which is "
+         "safer but means an upgrade needs a new version, not a setting. It needs keys managed for "
+         "it, which is why a consumer app has to do that for you. It is not post-quantum by default. "
+         "And while you are connected, the server holds your current address in memory, because it "
+         "must send packets back."),
+        ("p", f'Each of these is on the <a href="{WG_KNOWN_LIMITS}">Known Limitations page</a>. The '
+              f'last one deserves a plain sentence: any VPN server knows where to send your packets '
+              f'while you are connected. WireGuard neither adds to that nor removes it; the question '
+              f'is only whether the operator writes it down, and for how long.'),
+        ("qa", "Is WireGuard compromised?",
+         "No. There is no known break of the protocol, and the design has published proofs behind "
+         "it. When a VPN using WireGuard is compromised, the failure is at the operator: a server "
+         "that logs more than it says, a company that sells traffic, a key that was handled badly. "
+         "The protocol cannot protect you from the people running it."),
+        ("qa", "Which is safer, WireGuard or OpenVPN?",
+         "Both are sound when configured well, and neither has a known break. WireGuard is smaller "
+         "to audit, fixes its cryptography to modern choices, and has formal proofs; OpenVPN is older, "
+         "far larger, more configurable, and can be made to look like ordinary HTTPS traffic, which "
+         "WireGuard cannot. For a phone, where battery and reconnecting on the move matter, "
+         "WireGuard is the better fit. For hiding that a VPN is in use at all, OpenVPN has a tool "
+         "WireGuard lacks."),
+        ("h2", "The risk that matters: the operator"),
+        ("p", "Everything above is about the tunnel. The tunnel ends at a server, and the server "
+              "decrypts your traffic, because that is what sending it onward requires. So the safety "
+              "question you can actually act on is not \"is WireGuard safe\" but \"what does this "
+              "operator keep\". A protocol with proofs behind it carries traffic to a company you "
+              "still have to judge."),
+        ("p", "NetCloak's answer is short enough to quote in full, and it is the same paragraph on "
+              "every page and in the privacy policy:"),
+        ("keep",),
+        ("p", "The field-by-field version, including what the server holds while a session runs and "
+              "who else touches data, is on the <a href=\"/transparency/\">transparency page</a>. "
+              "Read that before you trust any VPN, this one included."),
+    ],
+}
+
+ARTICLES["/blog/how-netcloak-stays-free/"] = {
+    "title": "How a free VPN stays free, and what that costs you · NetCloak VPN",
+    "desc": ("Free VPNs are paid for in one of three ways. Which one NetCloak uses, exactly what the "
+             "ad company receives, why sessions are timed instead of capped, and what you give up."),
+    "eyebrow": "Free, explained",
+    "h1": "How a free VPN stays free, and what that costs you",
+    "lede": ("Servers cost money. When a VPN charges nothing, someone is paying, and you deserve to "
+             "know who. Here is the arithmetic for NetCloak, ad company and all."),
+    "published": "2026-09-19",
+    "og": ("Free, explained", "How a free VPN\nstays free, and\nwhat it costs you.",
+           "Three ways free VPNs are paid for. Which one\nwe use, and exactly what the ad company gets."),
+    "body": [
+        ("p", "Every free VPN is paid for in one of three ways: by selling what it learns about you, "
+              "by using the free tier to sell you a paid one, or by showing you ads. NetCloak is paid "
+              "for by ads, specifically rewarded video ads you watch to extend a timed session. What "
+              "follows is what that means in practice, what the ad company can and cannot see, and "
+              "what it costs you in minutes, speed and choice."),
+        ("h2", "The three ways, and what each means for you"),
+        ("ul", [
+            "<strong>Selling data or traffic.</strong> The VPN logs what you do, or rents out your "
+            "connection as an exit for other people's traffic, and sells the result. You pay with "
+            "the very thing you installed a VPN to protect. This is the model the warnings about "
+            "free VPNs are really about.",
+            "<strong>Upselling a paid tier.</strong> The free version is deliberately limited, by "
+            "data cap, by speed, by server choice, so that the paid version looks better. Honest, "
+            "and common, and it means the free tier is designed to disappoint you eventually.",
+            "<strong>Ads.</strong> An advertising network pays the operator to show you ads, and the "
+            "service is the same for everyone. You pay in attention. What the ad network learns "
+            "about you depends entirely on what the app hands it, which is the part worth reading "
+            "closely.",
+        ]),
+        ("h2", "What the warnings get right, and what they leave out"),
+        ("p", f'The pages that rank for "are free VPNs safe" say, roughly, that ads mean data '
+              f'sharing. <a href="{PROTON_FREE_MONEY}">Proton\'s piece</a> lists targeting you with '
+              f'ads first among the ways free VPNs make money; <a href="{NORTON_FREE_SAFE}">Norton\'s'
+              f'</a> cites a study of free Android VPN apps as the reason to be careful. They are '
+              f'right that an ad-funded app hands something to an ad company. They leave out what, '
+              f'and that is the whole difference.'),
+        ("p", f'NetCloak uses Google AdMob. When an ad is requested, AdMob receives the device\'s '
+              f'advertising ID, which Android lets you '
+              f'<a href="{PLAY_AD_ID_HELP}">reset or delete at any time</a>, along with the ordinary '
+              f'facts any app request carries, such as the device model and your public address at '
+              f'that moment. What AdMob does not receive is anything from inside the VPN tunnel. The '
+              f'ad library runs beside the tunnel, not in it; it has no view of the sites you visit '
+              f'through NetCloak, and neither do we, because the traffic is encrypted end to end '
+              f'between your phone and the server. An ad company that gets your advertising ID is an '
+              f'ordinary ad-funded app. An ad company that gets your browsing would be the first '
+              f'model above wearing the third\'s clothes, and it is not what happens here.'),
+        ("h2", "Time, not data: why the unit matters"),
+        ("p", "Most free VPNs meter data: two gigabytes a month, ten, whatever the tier allows. You "
+              "cannot see a data cap coming. A page loads, a video buffers, and somewhere a counter "
+              "you never look at runs out. NetCloak meters time instead. You pick a mode before you "
+              "connect, and the app shows a clock:"),
+        ("modes",),
+        ("p", "A clock is honest in a way a cap is not. You know what forty minutes is. You can plan "
+              "around it, and when it runs low the app warns you at fifteen percent and again at "
+              "five. Watching a rewarded video adds another block of your mode's length, up to a "
+              "ceiling of three hours remaining, and if the ceiling means an extension adds less than "
+              "a full block, or nothing, the app says so instead of playing the ad and shrugging. How "
+              "often an ad is required is a setting we control remotely, and it can be zero; there "
+              "have been stretches where no ad was required at all."),
+        ("h2", "What it costs you"),
+        ("ul", [
+            "<strong>Minutes.</strong> A rewarded video is short, but it is your attention, and you "
+            "will watch one every time you extend.",
+            "<strong>One server.</strong> Ads pay for one server, in New York. If you are far from "
+            "it, your traffic travels far. There is no region picker because there is nothing to "
+            "pick.",
+            "<strong>Speed on the longest mode.</strong> Marathon buys eighty minutes by running at "
+            "the base speed. Sprint runs at four times that and lasts twenty. That is the trade, "
+            "stated on the tile before you choose it.",
+        ]),
+        ("h2", "What it does not cost you"),
+        ("ul", [
+            "<strong>An account.</strong> There is none. No email, no password, nothing to leak.",
+            "<strong>Your browsing.</strong> Not logged, not readable, not sold.",
+            "<strong>A surprise.</strong> The clock is on the screen the whole time.",
+        ]),
+        ("h2", "What Google Play requires of a VPN, in plain words"),
+        ("p", f'Google\'s <a href="{PLAY_VPN_POLICY}">policy for VPN apps</a> requires an app that '
+              f'uses Android\'s VpnService to say so in its listing, to encrypt traffic from the '
+              f'device to the tunnel endpoint, and never to make money by redirecting or manipulating '
+              f'other apps\' traffic. NetCloak does the first two and does not do the third. The ads '
+              f'are ads on a screen, not something done to your traffic.'),
+        ("qa", "Can I trust a free VPN?",
+         "Trust the one that tells you what it keeps, for how long, and who else is paid, and then "
+         "check that the app matches the words. Distrust any free VPN, this one included, that "
+         "answers with adjectives instead."),
+        ("qa", "Is there a 100% free VPN?",
+         "Yes, in the sense that NetCloak never asks for money and has no paid tier. It is paid for "
+         "by ads, and the limit is a clock you can see, not a cap you cannot."),
+        ("h2", "What we keep"),
+        ("keep",),
+        ("p", "The field-by-field version is on the <a href=\"/transparency/\">transparency page</a>, "
+              "and the session mechanics, including every reason a session can end early, are on "
+              "<a href=\"/how-it-works/\">how it works</a>."),
+    ],
+}
