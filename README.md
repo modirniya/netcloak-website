@@ -1,107 +1,61 @@
-# NetCloak Website
+# netcloak.app
 
-Under construction page for NetCloak hosted on GitHub Pages.
+The marketing site for NetCloak, a free WireGuard® VPN for Android by NeuEra Apps.
+Static HTML on GitHub Pages, served from `main` at the repository root, custom domain
+`netcloak.app` (see `CNAME`). No framework, no analytics, no third-party requests.
 
-## Setup Instructions
+## Layout
 
-### 1. Push to GitHub
-
-```bash
-git add .
-git commit -m "Initial commit: Under construction page"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/netcloak-website.git
-git push -u origin main
+```
+site/build.py        the generator (Python 3.10+, standard library)
+site/content.py      every word the site says, and the constants the build needs
+site/legal_cache/    the mirrored Privacy Policy and Terms of Use, committed
+assets/site.css      generated stylesheet
+assets/fonts/        IBM Plex Sans (variable) and IBM Plex Mono, latin subsets, OFL
+assets/img/          app icon at every size, Open Graph cards, the Google Play badge
+index.html, download/, privacy/, terms/, 404.html    generated pages
+robots.txt, sitemap.xml, site.webmanifest            generated
 ```
 
-### 2. Enable GitHub Pages
+Edit `site/content.py` or `site/build.py`. Never edit the generated files; the build
+overwrites them and `--check` will flag the drift.
 
-1. Go to your repository on GitHub
-2. Click on **Settings**
-3. Navigate to **Pages** in the left sidebar
-4. Under **Source**, select **Deploy from a branch**
-5. Select **main** branch and **/ (root)** folder
-6. Click **Save**
+## Build
 
-### 3. Configure Custom Domain (DNS Settings)
-
-You need to configure DNS records with your domain registrar for `netcloak.app`:
-
-#### Option A: Apex Domain (netcloak.app)
-Add the following **A records**:
 ```
-185.199.108.153
-185.199.109.153
-185.199.110.153
-185.199.111.153
+python3 site/build.py               # write every page and asset
+python3 site/build.py --check       # exit 1 and list what would change; nothing is written
+python3 site/build.py --sync-legal  # refresh the legal mirrors from legal.neuera.app, then build
+python3 site/build.py --ping        # after a deploy, tell IndexNow the sitemap changed
 ```
 
-#### Option B: WWW Subdomain (www.netcloak.app)
-Add a **CNAME record**:
-```
-www.netcloak.app  →  YOUR_USERNAME.github.io
-```
+Optional inputs, both read only at build time and never committed:
 
-#### Recommended: Both
-Set up both apex domain and www subdomain:
-- Add all four A records for the apex domain
-- Add a CNAME record for www pointing to your GitHub Pages URL
+- `PLAY_SA_KEY` — path to a Google service-account JSON key with access to the app in
+  Play Console. When set, the build confirms the current production version name and
+  code from the Play Developer API for `/download/`. When unset, the cached values in
+  `content.py` are used and a note is printed. The API carries no release date, so
+  `APP_RELEASE_DATE` in `content.py` is moved forward by hand when a build ships.
+- `PLEX_TTF_DIR` — a folder holding `IBMPlexSans-Regular.ttf`, `IBMPlexSans-SemiBold.ttf`
+  and `IBMPlexMono-Medium.ttf`, used only to draw the Open Graph images with PIL.
+  Defaults to `../plex-ttf` next to the repository. Without it PIL's default font is
+  used and a warning printed; without PIL the existing images are kept.
 
-### 4. Verify Custom Domain in GitHub
+## Deploy
 
-1. Go to repository **Settings** → **Pages**
-2. Under **Custom domain**, enter: `netcloak.app`
-3. Click **Save**
-4. Wait for DNS check to complete
-5. Enable **Enforce HTTPS** once DNS is verified
+A push to `main` is a deploy. GitHub Pages serves the committed output; there is no
+build server. Run `--check` before committing so the tree and the source agree.
 
-### 5. DNS Propagation
+## Legal documents
 
-DNS changes can take up to 48 hours to propagate, but usually complete within a few hours.
+`/privacy/` and `/terms/` are copies of the documents published at
+https://legal.neuera.app/netcloak/, which is their canonical home and keeps every past
+version. The copies carry `rel=canonical` pointing there and are excluded from the
+sitemap. Run `--sync-legal` whenever a policy is republished.
 
-You can check DNS propagation status at: https://www.whatsmydns.net/
+## Trademarks
 
-## Local Development
-
-To preview locally, simply open `index.html` in your web browser, or use a local server:
-
-```bash
-python3 -m http.server 8000
-```
-
-Then visit: http://localhost:8000
-
-## Files
-
-- `index.html` - Main HTML page
-- `style.css` - Styles and animations
-- `CNAME` - Custom domain configuration for GitHub Pages
-- `favicon.png` / `netcloak-icon.png` - App icon and favicon
-- `DECISIONS.md` - Business strategy and decisions documentation
-- `TECH-STACK.md` - Technology choices and architecture documentation
-- `README.md` - This file
-
-## Project Documentation
-
-**Business Strategy:** See `DECISIONS.md`
-- Target market (Philippines mobile phone shops)
-- Pricing structure ($0.75 wholesale, ₱99-149 retail)
-- Payment processing (Wise Business)
-- Risk mitigation and abuse prevention
-- Growth roadmap and next steps
-
-**Technology Stack:** See `TECH-STACK.md`
-- Backend: Go + PostgreSQL + WireGuard
-- Frontend: Go templates + Tailwind + Alpine.js
-- Mobile: Flutter
-- Infrastructure: Contabo VPS + nginx + systemd
-- MVP development roadmap (8 weeks)
-
-**System Architecture:** See `ARCHITECTURE.md`
-- Complete technical architecture and design
-- Component specifications (netcloak-admin, netcloak-engine, netcloak-edge)
-- Database schema (PostgreSQL + Redis)
-- Multi-server coordination and abuse prevention
-- API specifications and critical workflows
-- Security model and minimalistic data collection
-- Migration path from PoC to production system
+"WireGuard" and the "WireGuard" logo are registered trademarks of Jason A. Donenfeld.
+The site uses the name descriptively and never shows the logo. Google Play and the
+Google Play logo are trademarks of Google LLC; the badge in `assets/img/` is the
+official artwork and must stay unmodified.
