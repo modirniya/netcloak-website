@@ -39,7 +39,7 @@
       <img src="/assets/img/icon-64.png" alt="" width="32" height="32">
       <span>NetCloak</span>
     </a>
-    <nav class="site-nav" aria-label="Main"><a href="/" aria-current="page">Home</a></nav>
+    <nav class="site-nav" aria-label="Main"><a href="/how-it-works/">How it works</a><a href="/wireguard/">WireGuard</a><a href="/transparency/">Transparency</a><a href="/faq/">FAQ</a></nav>
     <a class="btn btn-primary btn-sm" href="https://play.google.com/store/apps/details?id=app.netcloak">Get the app</a>
   </div>
 </header>
@@ -53,7 +53,7 @@
     <div class="actions">
       <a class="btn btn-primary" href="https://play.google.com/store/apps/details?id=app.netcloak">Get it on Google Play</a>
     </div>
-    <p class="small">Android 8.0+ · 18+ · One server, New York · What we keep is <a href="#keep">one paragraph long</a>.</p>
+    <p class="small">Android 8.0+ · 18+ · One server, New York · What we keep is <a href="/transparency/">one paragraph long</a>.</p>
   </div>
   <div class="card" role="img" aria-label="The app's session card: protected, New York, 40 minutes left in Balanced mode">
   <div class="st"><span>Protected</span><b>New York, US</b></div>
@@ -66,7 +66,8 @@
 <section id="no-account">
   <p class="eyebrow">No account</p>
   <h2>Not even an email address.</h2>
-  <div class="stack"><p>There is nothing to register and nothing to remember. When you connect, the app generates a random key for that session and our server hands it a short-lived, anonymous token. Both are deleted with the session. Nothing about you is stored between one session and the next, because nothing about you was collected.</p></div>
+  <div class="stack"><p>There is nothing to register and nothing to remember. When you connect, the app generates a random key for that session and our server hands it a short-lived, anonymous token. Both are deleted with the session. Nothing about you is stored between one session and the next, because nothing about you was collected.</p>
+  <p>More on the <a href="/no-account/">no-account page</a>.</p></div>
 </section>
 
 <section id="sessions">
@@ -74,7 +75,8 @@
   <h2>Timed sessions, not data caps.</h2>
   <p class="lede">Free time arrives in blocks. Before you connect, pick the mode that fits what you are doing: longer at standard speed, or shorter and faster.</p>
   <div class="tiles"><div class="tile marathon"><span class="x">Marathon</span><span class="n">80<small>min</small></span><span class="x">1× speed</span><p>Standard speed for the longest stretch.</p></div><div class="tile balanced"><span class="x">Balanced</span><span class="n">40<small>min</small></span><span class="x">2× speed</span><p>Twice the speed. The default.</p></div><div class="tile sprint"><span class="x">Sprint</span><span class="n">20<small>min</small></span><span class="x">4× speed</span><p>Four times the speed for a quick job.</p></div></div>
-  <div class="stack"><p>The app shows the time remaining the whole way and warns you before a session runs low. Watching a short rewarded video adds another block of your mode’s length. Remaining time tops out at three hours in one stretch, and reconnecting starts a fresh session.</p><p>How often an ad is asked for is a setting we control remotely, and it can be zero. When it is, sessions extend without one.</p></div>
+  <div class="stack"><p>The app shows the time remaining the whole way and warns you before a session runs low. Watching a short rewarded video adds another block of your mode’s length. Remaining time tops out at three hours in one stretch, and reconnecting starts a fresh session.</p><p>How often an ad is asked for is a setting we control remotely, and it can be zero. When it is, sessions extend without one.</p>
+  <p>Every reason a session can end early is on the <a href="/how-it-works/">how it works page</a>.</p></div>
 </section>
 
 <section id="protects">
@@ -96,7 +98,7 @@
   <div class="stack">
     <p>WireGuard® is a VPN protocol with a small codebase, quick connections and low battery use. It connects in a fraction of a second and costs your phone less power while it runs than older protocols do.</p>
     <p>NetCloak carries the whole setup. There is no configuration file to import and no QR code to scan: the key, the address and the server are arranged for each session when you tap connect.</p>
-    <p>Read more at the <a href="https://www.wireguard.com/">WireGuard project</a>.</p>
+    <p>More on our <a href="/wireguard/">WireGuard page</a>, or at the <a href="https://www.wireguard.com/">WireGuard project</a>.</p>
   </div>
 </section>
 
@@ -104,6 +106,7 @@
   <p class="eyebrow">Questions</p>
   <h2>Asked plainly, answered plainly.</h2>
   <div class="faq"><details><summary>Is there a free VPN without making an account?</summary><p>Yes. NetCloak has no account at all: no email, no password, no sign-up screen. Install it from Google Play, choose a mode and tap connect.</p></details><details><summary>Which VPN does not require login?</summary><p>NetCloak never asks you to log in, because there is nothing to log in to. A random key and an anonymous token identify the session, and both are deleted when it ends.</p></details><details><summary>Is there a free VPN that uses WireGuard?</summary><p>NetCloak is one. Every connection is a WireGuard® tunnel, and the app arranges it for you, so you never touch a configuration file.</p></details><details><summary>Can I use WireGuard on Android?</summary><p>Yes. The official WireGuard app needs a configuration from a server you already have. NetCloak includes the server and the configuration, so it works on its own on Android 8.0 or later.</p></details><details><summary>Are there any free no log VPNs?</summary><p>We do not use the phrase, because it hides more than it says. We cannot read what goes through the tunnel and we do not log the sites you visit. We do keep a small session record while you are connected, and operational logs with your IP address for up to two days. That is the whole list.</p></details></div>
+  <p class="after">Eleven more on the <a href="/faq/">questions page</a>.</p>
 </section>
 
 <section id="install">
@@ -129,6 +132,8 @@
       <p class="foot-h">Product</p>
       <a href="/">Home</a>
       <a href="/download/">Download</a>
+      <a href="/how-it-works/">How it works</a>
+      <a href="/no-account/">No account</a>
       <a href="https://play.google.com/store/apps/details?id=app.netcloak">Google Play listing</a>
     </div>
     <div>
@@ -139,7 +144,9 @@
     </div>
     <div>
       <p class="foot-h">Company</p>
-      <a href="https://neuera.app/">NeuEra Apps</a>
+      <a href="/about/">About</a>
+      <a href="/support/">Support</a>
+      <a href="/transparency/">Transparency</a>
       <a href="mailto:hello@neuera.app">hello@neuera.app</a>
     </div>
   </div>

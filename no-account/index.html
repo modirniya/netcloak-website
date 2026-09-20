@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free VPN with No Account, No Sign-Up · NetCloak VPN</title>
+<meta name="description" content="NetCloak is a free VPN for Android with no account at all: no email, no password, no login. What identifies a session instead, and why that is enough.">
+<link rel="canonical" href="https://netcloak.app/no-account/">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="google-site-verification" content="QdiSCBEV68PdCPjb2iDeEWH348pYsWWqdlfs9gpHWXM">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0B1210">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#F4F7F4">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16.png">
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="NetCloak VPN">
+<meta property="og:title" content="Free VPN with No Account, No Sign-Up · NetCloak VPN">
+<meta property="og:description" content="NetCloak is a free VPN for Android with no account at all: no email, no password, no login. What identifies a session instead, and why that is enough.">
+<meta property="og:url" content="https://netcloak.app/no-account/">
+<meta property="og:image" content="https://netcloak.app/assets/img/og-no-account.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="NetCloak: A VPN that shows you the clock.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free VPN with No Account, No Sign-Up · NetCloak VPN">
+<meta name="twitter:description" content="NetCloak is a free VPN for Android with no account at all: no email, no password, no login. What identifies a session instead, and why that is enough.">
+<meta name="twitter:image" content="https://netcloak.app/assets/img/og-no-account.png">
+<link rel="preload" href="/assets/fonts/IBMPlexSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/IBMPlexMono-500.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "@id": "https://netcloak.app/#organization", "name": "NeuEra Apps", "legalName": "NeuEra Apps LLC", "email": "hello@neuera.app", "url": "https://neuera.app/", "logo": "https://netcloak.app/assets/img/icon-512.png"}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "@id": "https://netcloak.app/#website", "url": "https://netcloak.app/", "name": "NetCloak VPN", "publisher": {"@id": "https://netcloak.app/#organization"}}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://netcloak.app/"}, {"@type": "ListItem", "position": 2, "name": "No account", "item": "https://netcloak.app/no-account/"}]}</script></head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <div class="bar">
+    <a class="brand" href="/" aria-label="NetCloak home">
+      <img src="/assets/img/icon-64.png" alt="" width="32" height="32">
+      <span>NetCloak</span>
+    </a>
+    <nav class="site-nav" aria-label="Main"><a href="/how-it-works/">How it works</a><a href="/wireguard/">WireGuard</a><a href="/transparency/">Transparency</a><a href="/faq/">FAQ</a></nav>
+    <a class="btn btn-primary btn-sm" href="https://play.google.com/store/apps/details?id=app.netcloak">Get the app</a>
+  </div>
+</header>
+<main id="main">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">No account</span></nav>
+<section class="hero page-hero" style="grid-template-columns:1fr">
+  <div>
+    <p class="eyebrow">No account</p>
+    <h1>A free VPN with no account. Not even an email.</h1>
+    <p class="lede">Most “no sign-up” VPNs still make one somewhere: an email, a numbered account, a device licence. NetCloak has nothing to make. Install it, pick a mode, tap connect.</p>
+  </div>
+</section>
+<section class="prose">
+<div class="qa"><h2>Is there a free VPN without making an account?</h2><p>Yes: NetCloak has no account of any kind, so there is no email, no password, no sign-up screen, and nothing to recover if you lose your phone.</p></div><p>When you install NetCloak there is no first screen asking who you are. The app asks Android for permission to run a VPN, shows you the three session modes, and waits for a tap. That is the whole onboarding.</p><h2>What “no account” means here, and what it means elsewhere</h2><p>The phrase is used loosely across the category, so it is worth being exact. Windscribe lets you skip the email but still creates an account with a username and password. Mullvad replaces the email with a random account number that you have to keep. hide.me advertises no registration on the web, and users report the Android app asking for an email anyway. None of that is dishonest; it is just a different thing from having no account.</p><p>NetCloak has no username, no password, no account number and no email field. There is no server-side profile that could be looked up, exported, breached or subpoenaed, because one is never created.</p><h2>What identifies a session instead</h2><p>Two things, both temporary. When you tap connect, the app generates a fresh WireGuard® key pair for that session and sends the public half to our server. The server hands back a short-lived access token whose subject is an anonymous identifier. Those two values let the server route your packets for the length of the session, and both are deleted with it.</p><p>On the phone itself, the token is held in Android’s hardware-backed encrypted storage, next to preferences such as your chosen mode and theme. Uninstalling removes all of it. There is nothing on our side to delete, because nothing about you was kept.</p><h2>Why this is possible</h2><p>Accounts exist to tie a person to a payment, to sync settings between devices, or to sell to. NetCloak does none of those. Nothing is sold, nothing is synced, and the ads that pay for the server are shown by Google AdMob against an advertising identifier you can reset in Android settings, not against a profile of you.</p><div class="qa"><h2>Which VPN does not require login?</h2><p>NetCloak never shows a login screen, because there is nothing to log in to: a random key and a short-lived anonymous token identify each session, and both are deleted when it ends.</p></div><p>Everything the server does keep, for how long, is listed on the <a href="/transparency/">transparency page</a>.</p><div class="install"><a class="badge-link" href="https://play.google.com/store/apps/details?id=app.netcloak"><img src="/assets/img/google-play-badge.png" alt="Get it on Google Play" width="194" height="75"></a><p>Android 8.0 or later. You must be 18 or older to use NetCloak.</p></div>
+</section>
+
+</main>
+<footer class="site-foot">
+  <div class="foot-grid">
+    <div>
+      <p class="foot-brand">NetCloak</p>
+      <p class="foot-note">Free WireGuard® VPN for Android. No account, timed sessions,
+      one server in New York, and a plain statement of what we keep.</p>
+      <a class="badge-link" href="https://play.google.com/store/apps/details?id=app.netcloak"><img src="/assets/img/google-play-badge.png"
+        alt="Get it on Google Play" width="162" height="63"></a>
+    </div>
+    <div>
+      <p class="foot-h">Product</p>
+      <a href="/">Home</a>
+      <a href="/download/">Download</a>
+      <a href="/how-it-works/">How it works</a>
+      <a href="/no-account/">No account</a>
+      <a href="https://play.google.com/store/apps/details?id=app.netcloak">Google Play listing</a>
+    </div>
+    <div>
+      <p class="foot-h">Legal</p>
+      <a href="/privacy/">Privacy Policy</a>
+      <a href="/terms/">Terms of Use</a>
+      <a href="https://legal.neuera.app/netcloak/">Version history</a>
+    </div>
+    <div>
+      <p class="foot-h">Company</p>
+      <a href="/about/">About</a>
+      <a href="/support/">Support</a>
+      <a href="/transparency/">Transparency</a>
+      <a href="mailto:hello@neuera.app">hello@neuera.app</a>
+    </div>
+  </div>
+  <p class="fineprint">© 2026 NeuEra Apps LLC · NetCloak is a product of NeuEra Apps.
+  “WireGuard” and the “WireGuard” logo are registered trademarks of Jason A. Donenfeld. Google Play and the Google Play logo are trademarks of Google LLC.</p>
+</footer>
+</body>
+</html>

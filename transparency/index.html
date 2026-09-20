@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Transparency: What NetCloak Keeps · NetCloak VPN</title>
+<meta name="description" content="Every field the NetCloak server stores while a session runs, how long logs are kept, where the server is, who else touches data, and what we cannot see.">
+<link rel="canonical" href="https://netcloak.app/transparency/">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="google-site-verification" content="QdiSCBEV68PdCPjb2iDeEWH348pYsWWqdlfs9gpHWXM">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0B1210">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#F4F7F4">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16.png">
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="NetCloak VPN">
+<meta property="og:title" content="Transparency: What NetCloak Keeps · NetCloak VPN">
+<meta property="og:description" content="Every field the NetCloak server stores while a session runs, how long logs are kept, where the server is, who else touches data, and what we cannot see.">
+<meta property="og:url" content="https://netcloak.app/transparency/">
+<meta property="og:image" content="https://netcloak.app/assets/img/og-transparency.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="NetCloak: A VPN that shows you the clock.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Transparency: What NetCloak Keeps · NetCloak VPN">
+<meta name="twitter:description" content="Every field the NetCloak server stores while a session runs, how long logs are kept, where the server is, who else touches data, and what we cannot see.">
+<meta name="twitter:image" content="https://netcloak.app/assets/img/og-transparency.png">
+<link rel="preload" href="/assets/fonts/IBMPlexSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/IBMPlexMono-500.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "@id": "https://netcloak.app/#organization", "name": "NeuEra Apps", "legalName": "NeuEra Apps LLC", "email": "hello@neuera.app", "url": "https://neuera.app/", "logo": "https://netcloak.app/assets/img/icon-512.png"}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "@id": "https://netcloak.app/#website", "url": "https://netcloak.app/", "name": "NetCloak VPN", "publisher": {"@id": "https://netcloak.app/#organization"}}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://netcloak.app/"}, {"@type": "ListItem", "position": 2, "name": "Transparency", "item": "https://netcloak.app/transparency/"}]}</script></head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <div class="bar">
+    <a class="brand" href="/" aria-label="NetCloak home">
+      <img src="/assets/img/icon-64.png" alt="" width="32" height="32">
+      <span>NetCloak</span>
+    </a>
+    <nav class="site-nav" aria-label="Main"><a href="/how-it-works/">How it works</a><a href="/wireguard/">WireGuard</a><a href="/transparency/" aria-current="page">Transparency</a><a href="/faq/">FAQ</a></nav>
+    <a class="btn btn-primary btn-sm" href="https://play.google.com/store/apps/details?id=app.netcloak">Get the app</a>
+  </div>
+</header>
+<main id="main">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">Transparency</span></nav>
+<section class="hero page-hero" style="grid-template-columns:1fr">
+  <div>
+    <p class="eyebrow">Transparency</p>
+    <h1>What we keep, for how long, and who else sees it.</h1>
+    <p class="lede">This page is the privacy policy with the lawyers’ sentences taken out. Nothing here says less than the policy, and nothing here says more.</p>
+  </div>
+</section>
+<section class="prose">
+<p class="keep">We do not log the sites you visit, your DNS queries, or anything else inside the tunnel. We cannot read it. We keep a small record while a session is running, deleted when the session ends. Operational logs that include your IP address are kept for no more than two days, then deleted. A VPN is not invisibility: it changes where your traffic joins the public internet, not what you do once it gets there.</p><div class="qa"><h2>Are there any free no log VPNs?</h2><p>We do not use the phrase, because every VPN keeps something while you are connected; instead, here is the complete list of what NetCloak keeps, which is short, and how long each item lives.</p></div><h2>The session record, field by field</h2><p>While a session is running, our server holds one row for it. These are its fields, in full:</p><dl class="spec"><dt>WireGuard® public key</dt><dd>Generated on your phone for this session. Identifies the tunnel, not you.</dd><dt>Tunnel address</dt><dd>A private address in the 10.8.x.x range assigned inside the tunnel. It is not your public address.</dd><dt>Created, expires, last active</dt><dd>Three timestamps. They are how the server knows when to end the session and whether the tunnel has gone idle.</dd><dt>Extension count</dt><dd>How many times the session was extended.</dd><dt>Anonymous identifier</dt><dd>The subject of your access token: a random value with no link to a person, account, or email.</dd><dt>Bytes transferred</dt><dd>Measured against a fair-use ceiling of 10 GB per session, which exists so that one session cannot exhaust a shared server. It is not a quota and the app does not show it.</dd><dt>Mode</dt><dd>Marathon, Balanced or Sprint.</dd></dl><p>The row is deleted when the session ends, for any of the reasons on the <a href="/how-it-works/">how it works</a> page.</p><h2>Logs, and the two-day rule</h2><p>Our server writes operational logs: which requests arrived, which were refused by the rate limiter, which sessions were created and reclaimed. Those logs contain your public IP address, because that is what a request arrives from. They are kept for no more than two days and then deleted. Rate limits are five requests a minute per address for creating or extending a session and thirty for checking its status.</p><p>There are no browsing logs, no DNS query logs, and no record of traffic content. This is not a policy choice we could quietly reverse; the traffic is encrypted with a key we do not hold, so there is nothing to record.</p><h2>The server</h2><p>One, in New York, United States, rented from Contabo GmbH, a hosting company based in Germany. We say this plainly because “servers in 90 countries” is the kind of sentence that usually hides rented capacity and virtual locations. Ours is one machine, we know exactly where it is, and everyone connects to it.</p><h2>Who else touches data, and what each receives</h2><dl class="spec"><dt>Google AdMob and User Messaging Platform</dt><dd>Serve the rewarded video ads and collect your consent choice. AdMob receives your device’s advertising identifier, which you can reset or delete in Android settings. When an ad reward is verified, the app attaches a random single-use number and the anonymous identifier from your token, and Google calls our server to confirm the reward. Nothing about your browsing reaches AdMob, because it does not pass through the app.</dd><dt>Cloudflare</dt><dd>Runs the DNS-over-HTTPS resolver at 1.1.1.1 the app uses to find its server list and settings. Like any DNS query, that tells Cloudflare which record was asked for, from which network address.</dd><dt>Google Play</dt><dd>Distributes the app under its own terms and sees the install.</dd><dt>Contabo GmbH</dt><dd>Hosts the server. Sees the machine, not the contents of the tunnel.</dd></dl><p>There is no analytics provider, no crash-reporting service, and no payment processor, because the app sends no analytics, reports no crashes to a third party, and sells nothing.</p><h2>What we cannot see</h2><p>The sites you visit, the apps you use, the content of anything you send or receive, your DNS queries, and your location beyond the coarse fact of which network address you connected from. The tunnel is encrypted end to end between your phone and our server with a key your phone generated. We can see that a tunnel exists and how many bytes have crossed it. That is all.</p><h2>Legal requests</h2><p>Legal requests received to date: 0 (as of 2026-09-20). This line is updated whenever that changes. What could be produced in response is limited by what exists: a session row that lives for the length of a session, and operational logs that live for two days.</p><h2>How the app uses Android’s VPN service</h2><p>NetCloak uses Android’s VpnService to route the device’s traffic through an encrypted tunnel to our server. It does not redirect, inspect or manipulate the traffic of other apps for advertising or any other purpose, and it does not inject anything into it. This is the same statement we make to Google Play in the VPN declaration every VPN app must file.</p><p>The full privacy policy, with every past version, is at <a href="https://legal.neuera.app/netcloak/privacy/">legal.neuera.app</a>, and a copy is kept at <a href="/privacy/">/privacy/</a>.</p>
+</section>
+
+</main>
+<footer class="site-foot">
+  <div class="foot-grid">
+    <div>
+      <p class="foot-brand">NetCloak</p>
+      <p class="foot-note">Free WireGuard® VPN for Android. No account, timed sessions,
+      one server in New York, and a plain statement of what we keep.</p>
+      <a class="badge-link" href="https://play.google.com/store/apps/details?id=app.netcloak"><img src="/assets/img/google-play-badge.png"
+        alt="Get it on Google Play" width="162" height="63"></a>
+    </div>
+    <div>
+      <p class="foot-h">Product</p>
+      <a href="/">Home</a>
+      <a href="/download/">Download</a>
+      <a href="/how-it-works/">How it works</a>
+      <a href="/no-account/">No account</a>
+      <a href="https://play.google.com/store/apps/details?id=app.netcloak">Google Play listing</a>
+    </div>
+    <div>
+      <p class="foot-h">Legal</p>
+      <a href="/privacy/">Privacy Policy</a>
+      <a href="/terms/">Terms of Use</a>
+      <a href="https://legal.neuera.app/netcloak/">Version history</a>
+    </div>
+    <div>
+      <p class="foot-h">Company</p>
+      <a href="/about/">About</a>
+      <a href="/support/">Support</a>
+      <a href="/transparency/">Transparency</a>
+      <a href="mailto:hello@neuera.app">hello@neuera.app</a>
+    </div>
+  </div>
+  <p class="fineprint">© 2026 NeuEra Apps LLC · NetCloak is a product of NeuEra Apps.
+  “WireGuard” and the “WireGuard” logo are registered trademarks of Jason A. Donenfeld. Google Play and the Google Play logo are trademarks of Google LLC.</p>
+</footer>
+</body>
+</html>

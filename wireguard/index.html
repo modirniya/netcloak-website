@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WireGuard VPN for Android, No Config File · NetCloak VPN</title>
+<meta name="description" content="NetCloak is a free WireGuard VPN for Android that needs no configuration file and no QR code. What WireGuard is, why it suits a phone, and where it has limits.">
+<link rel="canonical" href="https://netcloak.app/wireguard/">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="google-site-verification" content="QdiSCBEV68PdCPjb2iDeEWH348pYsWWqdlfs9gpHWXM">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0B1210">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#F4F7F4">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16.png">
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="NetCloak VPN">
+<meta property="og:title" content="WireGuard VPN for Android, No Config File · NetCloak VPN">
+<meta property="og:description" content="NetCloak is a free WireGuard VPN for Android that needs no configuration file and no QR code. What WireGuard is, why it suits a phone, and where it has limits.">
+<meta property="og:url" content="https://netcloak.app/wireguard/">
+<meta property="og:image" content="https://netcloak.app/assets/img/og-wireguard.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="NetCloak: A VPN that shows you the clock.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="WireGuard VPN for Android, No Config File · NetCloak VPN">
+<meta name="twitter:description" content="NetCloak is a free WireGuard VPN for Android that needs no configuration file and no QR code. What WireGuard is, why it suits a phone, and where it has limits.">
+<meta name="twitter:image" content="https://netcloak.app/assets/img/og-wireguard.png">
+<link rel="preload" href="/assets/fonts/IBMPlexSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/IBMPlexMono-500.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "@id": "https://netcloak.app/#organization", "name": "NeuEra Apps", "legalName": "NeuEra Apps LLC", "email": "hello@neuera.app", "url": "https://neuera.app/", "logo": "https://netcloak.app/assets/img/icon-512.png"}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "@id": "https://netcloak.app/#website", "url": "https://netcloak.app/", "name": "NetCloak VPN", "publisher": {"@id": "https://netcloak.app/#organization"}}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://netcloak.app/"}, {"@type": "ListItem", "position": 2, "name": "WireGuard", "item": "https://netcloak.app/wireguard/"}]}</script></head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <div class="bar">
+    <a class="brand" href="/" aria-label="NetCloak home">
+      <img src="/assets/img/icon-64.png" alt="" width="32" height="32">
+      <span>NetCloak</span>
+    </a>
+    <nav class="site-nav" aria-label="Main"><a href="/how-it-works/">How it works</a><a href="/wireguard/" aria-current="page">WireGuard</a><a href="/transparency/">Transparency</a><a href="/faq/">FAQ</a></nav>
+    <a class="btn btn-primary btn-sm" href="https://play.google.com/store/apps/details?id=app.netcloak">Get the app</a>
+  </div>
+</header>
+<main id="main">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">WireGuard</span></nav>
+<section class="hero page-hero" style="grid-template-columns:1fr">
+  <div>
+    <p class="eyebrow">WireGuard</p>
+    <h1>WireGuard® on Android, without the configuration file.</h1>
+    <p class="lede">Search for WireGuard on Android and you find setup guides, tunnel files and QR codes. NetCloak ships the protocol with all of that already done.</p>
+  </div>
+</section>
+<section class="prose">
+<div class="qa"><h2>Is there a free VPN that uses WireGuard?</h2><p>Yes: every NetCloak connection is a WireGuard tunnel, built with the official Android tunnel library from wireguard.com, and the app arranges the key, the address and the server for you on every connect.</p></div><h2>What WireGuard is</h2><p>WireGuard is a VPN protocol and the reference software that implements it, published at <a href="https://www.wireguard.com/">wireguard.com</a>. It is deliberately small: a few thousand lines where older protocols run to hundreds of thousands, which makes it easier to audit and harder to misconfigure. It is part of the Linux kernel, and its Android implementation is the library NetCloak ships.</p><h2>Why it suits a phone</h2><p>A phone changes networks constantly, from wifi to mobile data and back, and sleeps between uses. WireGuard handles both well. A connection completes in a single round trip, so reconnecting after a network change takes a fraction of a second. The tunnel is keyed to the device rather than to a network address, so moving between wifi and cellular does not drop it. And because the protocol does little work per packet, it costs the battery less than the alternatives while it runs.</p><h2>No config file, no QR code</h2><p>The official WireGuard app expects you to bring your own server and import a configuration file or scan a QR code that describes it. That is the right design for people who run their own servers, and the wrong one for everyone else. NetCloak includes the server, generates a fresh key pair on the phone for each session, and exchanges the public halves with the server when you tap connect. You never see a configuration, because there is nothing for you to get wrong.</p><h2>The encryption, in one paragraph</h2><p>WireGuard encrypts every packet with ChaCha20 and authenticates it with Poly1305, a combination chosen for speed on processors without dedicated encryption hardware, which describes most phones. Keys are exchanged with Curve25519 and rotated regularly, so a key captured today cannot decrypt yesterday’s traffic. The network you are on, the hotspot, the cafe, the carrier, sees only encrypted packets addressed to our server in New York.</p><h2>Where it has limits</h2><p>WireGuard’s own <a href="https://www.wireguard.com/known-limitations/">known limitations page</a> is honest and short, and so is this. The protocol is not post-quantum secure by default; NetCloak does not add a pre-shared key on top, so neither is NetCloak. WireGuard traffic has a recognisable shape on the wire, which means a network that wants to know you are using a VPN can tell; it cannot read what is inside. And a VPN protects the path between your phone and our server, not what you do once your traffic leaves it.</p><h2>WireGuard versus OpenVPN</h2><p>OpenVPN is older, larger, and more configurable; it can run over TCP, wear more cipher suites, and hide inside ordinary HTTPS traffic in ways WireGuard cannot. WireGuard is faster, connects quicker, uses less battery, and has far less code to audit. For a phone that roams between networks, those are the properties that matter, which is why NetCloak uses WireGuard and nothing else.</p><div class="qa"><h2>Can I use WireGuard on Android?</h2><p>Yes: Android 8.0 and later support it through the VPN service API, and NetCloak includes the server side too, so it works on its own without a configuration.</p></div><div class="qa"><h2>Is WireGuard free or paid?</h2><p>The protocol and its software are free and open source; NetCloak, which is built on them, is free as well, paid for by rewarded ads rather than by you.</p></div><div class="install"><a class="badge-link" href="https://play.google.com/store/apps/details?id=app.netcloak"><img src="/assets/img/google-play-badge.png" alt="Get it on Google Play" width="194" height="75"></a><p>Android 8.0 or later. You must be 18 or older to use NetCloak.</p></div>
+</section>
+
+</main>
+<footer class="site-foot">
+  <div class="foot-grid">
+    <div>
+      <p class="foot-brand">NetCloak</p>
+      <p class="foot-note">Free WireGuard® VPN for Android. No account, timed sessions,
+      one server in New York, and a plain statement of what we keep.</p>
+      <a class="badge-link" href="https://play.google.com/store/apps/details?id=app.netcloak"><img src="/assets/img/google-play-badge.png"
+        alt="Get it on Google Play" width="162" height="63"></a>
+    </div>
+    <div>
+      <p class="foot-h">Product</p>
+      <a href="/">Home</a>
+      <a href="/download/">Download</a>
+      <a href="/how-it-works/">How it works</a>
+      <a href="/no-account/">No account</a>
+      <a href="https://play.google.com/store/apps/details?id=app.netcloak">Google Play listing</a>
+    </div>
+    <div>
+      <p class="foot-h">Legal</p>
+      <a href="/privacy/">Privacy Policy</a>
+      <a href="/terms/">Terms of Use</a>
+      <a href="https://legal.neuera.app/netcloak/">Version history</a>
+    </div>
+    <div>
+      <p class="foot-h">Company</p>
+      <a href="/about/">About</a>
+      <a href="/support/">Support</a>
+      <a href="/transparency/">Transparency</a>
+      <a href="mailto:hello@neuera.app">hello@neuera.app</a>
+    </div>
+  </div>
+  <p class="fineprint">© 2026 NeuEra Apps LLC · NetCloak is a product of NeuEra Apps.
+  “WireGuard” and the “WireGuard” logo are registered trademarks of Jason A. Donenfeld. Google Play and the Google Play logo are trademarks of Google LLC.</p>
+</footer>
+</body>
+</html>
