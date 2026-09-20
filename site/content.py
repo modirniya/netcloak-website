@@ -827,8 +827,8 @@ ARTICLES["/blog/is-wireguard-safe/"] = {
              "proved about WireGuard, and the specific limits the project itself publishes."),
     "eyebrow": "WireGuard, examined",
     "h1": "Is WireGuard safe?",
-    "lede": ("A one-word answer would be dishonest in both directions. Here is what has been proved, "
-             "what has not, and where the real risk sits."),
+    "lede": ("Yes, for what it is designed to do, and with specific limits. Here is what has been "
+             "proved, what has not, and where the real risk sits."),
     "published": "2026-09-19",
     "og": ("WireGuard, examined", "Is WireGuard\nsafe?",
            "What has been proved, what has not,\nand where the real risk actually sits."),
