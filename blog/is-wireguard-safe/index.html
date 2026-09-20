@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Is WireGuard safe? · NetCloak VPN</title>
+<meta name="description" content="Yes, for what it is designed to do. What safe means for a VPN protocol, what has been proved about WireGuard, and the specific limits the project itself publishes.">
+<link rel="canonical" href="https://netcloak.app/blog/is-wireguard-safe/">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="google-site-verification" content="QdiSCBEV68PdCPjb2iDeEWH348pYsWWqdlfs9gpHWXM">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0B1210">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#F4F7F4">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16.png">
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="NetCloak VPN">
+<meta property="og:title" content="Is WireGuard safe? · NetCloak VPN">
+<meta property="og:description" content="Yes, for what it is designed to do. What safe means for a VPN protocol, what has been proved about WireGuard, and the specific limits the project itself publishes.">
+<meta property="og:url" content="https://netcloak.app/blog/is-wireguard-safe/">
+<meta property="og:image" content="https://netcloak.app/assets/img/og-blog-is-wireguard-safe.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="NetCloak: A VPN that shows you the clock.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Is WireGuard safe? · NetCloak VPN">
+<meta name="twitter:description" content="Yes, for what it is designed to do. What safe means for a VPN protocol, what has been proved about WireGuard, and the specific limits the project itself publishes.">
+<meta name="twitter:image" content="https://netcloak.app/assets/img/og-blog-is-wireguard-safe.png">
+<link rel="preload" href="/assets/fonts/IBMPlexSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/IBMPlexMono-500.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "@id": "https://netcloak.app/#organization", "name": "NeuEra Apps", "legalName": "NeuEra Apps LLC", "email": "hello@neuera.app", "url": "https://neuera.app/", "logo": "https://netcloak.app/assets/img/icon-512.png"}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "@id": "https://netcloak.app/#website", "url": "https://netcloak.app/", "name": "NetCloak VPN", "publisher": {"@id": "https://netcloak.app/#organization"}}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Is WireGuard safe?", "description": "Yes, for what it is designed to do. What safe means for a VPN protocol, what has been proved about WireGuard, and the specific limits the project itself publishes.", "datePublished": "2026-09-19", "dateModified": "2026-09-19", "author": {"@id": "https://netcloak.app/#organization"}, "publisher": {"@type": "Organization", "name": "NeuEra Apps", "logo": {"@type": "ImageObject", "url": "https://netcloak.app/assets/img/icon-512.png"}}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://netcloak.app/blog/is-wireguard-safe/"}, "image": "https://netcloak.app/assets/img/og-blog-is-wireguard-safe.png", "inLanguage": "en"}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://netcloak.app/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://netcloak.app/blog/"}, {"@type": "ListItem", "position": 3, "name": "Is WireGuard safe?", "item": "https://netcloak.app/blog/is-wireguard-safe/"}]}</script></head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <div class="bar">
+    <a class="brand" href="/" aria-label="NetCloak home">
+      <img src="/assets/img/icon-64.png" alt="" width="32" height="32">
+      <span>NetCloak</span>
+    </a>
+    <nav class="site-nav" aria-label="Main"><a href="/how-it-works/">How it works</a><a href="/wireguard/">WireGuard</a><a href="/transparency/">Transparency</a><a href="/faq/">FAQ</a></nav>
+    <a class="btn btn-primary btn-sm" href="https://play.google.com/store/apps/details?id=app.netcloak">Get the app</a>
+  </div>
+</header>
+<main id="main">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/blog/">Blog</a><span aria-hidden="true">/</span><span aria-current="page">Is WireGuard safe?</span></nav>
+<section class="hero page-hero" style="grid-template-columns:1fr">
+  <div>
+    <p class="eyebrow">WireGuard, examined</p>
+    <h1>Is WireGuard safe?</h1>
+    <p class="lede">A one-word answer would be dishonest in both directions. Here is what has been proved, what has not, and where the real risk sits.</p>
+    <p class="byline"><span>By NeuEra Apps</span><span>Published September 19, 2026</span></p>
+    <nav class="toc" aria-label="Contents"><p>Contents</p><ol><li><a href="#what-safe-means-for-a-vpn-protocol">What &quot;safe&quot; means for a VPN protocol</a></li><li><a href="#what-has-been-proved">What has been proved</a></li><li><a href="#forward-secrecy-in-one-paragraph">Forward secrecy, in one paragraph</a></li><li><a href="#why-a-small-codebase-is-a-safety-feature">Why a small codebase is a safety feature</a></li><li><a href="#what-safe-does-not-cover">What &quot;safe&quot; does not cover</a></li><li><a href="#what-are-the-downsides-of-using-wireguard-vpn">What are the downsides of using WireGuard VPN?</a></li><li><a href="#is-wireguard-compromised">Is WireGuard compromised?</a></li><li><a href="#which-is-safer-wireguard-or-openvpn">Which is safer, WireGuard or OpenVPN?</a></li><li><a href="#the-risk-that-matters-the-operator">The risk that matters: the operator</a></li></ol></nav>
+  </div>
+</section>
+<article class="prose">
+<section style="padding-block:0;border-bottom:0">
+<p>Yes: WireGuard® is safe for what it is designed to do, which is to carry your traffic to a server you have chosen so that nobody in between can read or alter it. The limits below are real, published by the project itself, and none of them is a hole in that promise. The risk that matters most is not in the protocol at all.</p><h2 id="what-safe-means-for-a-vpn-protocol">What "safe" means for a VPN protocol</h2><p>Three things. Confidentiality: nobody between your phone and the server can read the traffic. Integrity: nobody can change it in transit without the change being detected and the packet discarded. Authentication: your phone is talking to the server it thinks it is, and the server knows which key it is talking to. A protocol that delivers all three is doing its job. Whether the server at the far end is trustworthy is a different question, covered at the end.</p><h2 id="what-has-been-proved">What has been proved</h2><p>WireGuard's handshake is built on the <a href="https://noiseprotocol.org/">Noise protocol framework</a>, and the project publishes <a href="https://www.wireguard.com/formal-verification/">formal verification</a> of the protocol: machine-checked proofs that the handshake provides the properties above, including forward secrecy, so that a key stolen tomorrow does not decrypt traffic captured today. Very few VPN protocols have that. The <a href="https://www.wireguard.com/papers/wireguard.pdf">original paper</a> describes the design and the reasoning behind each choice.</p><h2 id="forward-secrecy-in-one-paragraph">Forward secrecy, in one paragraph</h2><p>The property people most often mean by "safe" without naming it is this: if someone records your encrypted traffic today and steals a key tomorrow, can they go back and read what they recorded? With WireGuard, no. Each session's traffic keys are derived during the handshake from fresh, short-lived values, and the handshake repeats about every two minutes, so a compromised long-term key unlocks nothing that was captured before. Recorded ciphertext stays ciphertext. That is forward secrecy, and it is one of the properties the published proofs cover.</p><h2 id="why-a-small-codebase-is-a-safety-feature">Why a small codebase is a safety feature</h2><p>Proofs cover the design. Code review covers the implementation, and the implementation is small enough that it has actually been reviewed: a few thousand lines, accepted into the Linux kernel after scrutiny from the people who maintain it. Bugs in cryptographic software historically live in the parts nobody read. WireGuard has very few parts nobody read.</p><p>Size also changes what a bug can be. A protocol that negotiates between dozens of cipher suites can be tricked into choosing a weak one; several well-known attacks on older VPN and TLS stacks worked exactly that way. WireGuard has one suite and no negotiation, so that whole class of attack has nothing to attack. If one of its primitives is ever broken, the fix is a new protocol version, not a configuration flag that some servers forget to set.</p><h2 id="what-safe-does-not-cover">What "safe" does not cover</h2><p>A tunnel protects the path, not the endpoints. WireGuard does nothing about a malicious app on your phone, a phishing page you log in to, or a website that already knows who you are because you signed in. It also does not hide your traffic from the VPN server, which decrypts it in order to send it onward. Anyone who tells you a VPN protocol makes you safe online, full stop, is selling something. It makes one specific thing safe: the wire between you and a server you chose.</p><div class="qa"><h2 id="what-are-the-downsides-of-using-wireguard-vpn">What are the downsides of using WireGuard VPN?</h2><p>Five, and the project lists them itself. It does not disguise its traffic, so an observer can tell you are using a VPN. Its cryptography is fixed rather than negotiated, which is safer but means an upgrade needs a new version, not a setting. It needs keys managed for it, which is why a consumer app has to do that for you. It is not post-quantum by default. And while you are connected, the server holds your current address in memory, because it must send packets back.</p></div><p>Each of these is on the <a href="https://www.wireguard.com/known-limitations/">Known Limitations page</a>. The last one deserves a plain sentence: any VPN server knows where to send your packets while you are connected. WireGuard neither adds to that nor removes it; the question is only whether the operator writes it down, and for how long.</p><div class="qa"><h2 id="is-wireguard-compromised">Is WireGuard compromised?</h2><p>No. There is no known break of the protocol, and the design has published proofs behind it. When a VPN using WireGuard is compromised, the failure is at the operator: a server that logs more than it says, a company that sells traffic, a key that was handled badly. The protocol cannot protect you from the people running it.</p></div><div class="qa"><h2 id="which-is-safer-wireguard-or-openvpn">Which is safer, WireGuard or OpenVPN?</h2><p>Both are sound when configured well, and neither has a known break. WireGuard is smaller to audit, fixes its cryptography to modern choices, and has formal proofs; OpenVPN is older, far larger, more configurable, and can be made to look like ordinary HTTPS traffic, which WireGuard cannot. For a phone, where battery and reconnecting on the move matter, WireGuard is the better fit. For hiding that a VPN is in use at all, OpenVPN has a tool WireGuard lacks.</p></div><h2 id="the-risk-that-matters-the-operator">The risk that matters: the operator</h2><p>Everything above is about the tunnel. The tunnel ends at a server, and the server decrypts your traffic, because that is what sending it onward requires. So the safety question you can actually act on is not "is WireGuard safe" but "what does this operator keep". A protocol with proofs behind it carries traffic to a company you still have to judge.</p><p>NetCloak's answer is short enough to quote in full, and it is the same paragraph on every page and in the privacy policy:</p><p class="keep">We do not log the sites you visit, your DNS queries, or anything else inside the tunnel. We cannot read it. We keep a small record while a session is running, deleted when the session ends. Operational logs that include your IP address are kept for no more than two days, then deleted. A VPN is not invisibility: it changes where your traffic joins the public internet, not what you do once it gets there.</p><p>The field-by-field version, including what the server holds while a session runs and who else touches data, is on the <a href="/transparency/">transparency page</a>. Read that before you trust any VPN, this one included.</p>
+</section>
+</article>
+
+</main>
+<footer class="site-foot">
+  <div class="foot-grid">
+    <div>
+      <p class="foot-brand">NetCloak</p>
+      <p class="foot-note">Free WireGuard® VPN for Android. No account, timed sessions,
+      one server in New York, and a plain statement of what we keep.</p>
+      <a class="badge-link" href="https://play.google.com/store/apps/details?id=app.netcloak"><img src="/assets/img/google-play-badge.png"
+        alt="Get it on Google Play" width="162" height="63"></a>
+    </div>
+    <div>
+      <p class="foot-h">Product</p>
+      <a href="/">Home</a>
+      <a href="/download/">Download</a>
+      <a href="/how-it-works/">How it works</a>
+      <a href="/no-account/">No account</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://play.google.com/store/apps/details?id=app.netcloak">Google Play listing</a>
+    </div>
+    <div>
+      <p class="foot-h">Legal</p>
+      <a href="/privacy/">Privacy Policy</a>
+      <a href="/terms/">Terms of Use</a>
+      <a href="https://legal.neuera.app/netcloak/">Version history</a>
+    </div>
+    <div>
+      <p class="foot-h">Company</p>
+      <a href="/about/">About</a>
+      <a href="/support/">Support</a>
+      <a href="/transparency/">Transparency</a>
+      <a href="mailto:hello@neuera.app">hello@neuera.app</a>
+    </div>
+  </div>
+  <p class="fineprint">© 2026 NeuEra Apps LLC · NetCloak is a product of NeuEra Apps.
+  “WireGuard” and the “WireGuard” logo are registered trademarks of Jason A. Donenfeld. Google Play and the Google Play logo are trademarks of Google LLC.</p>
+</footer>
+</body>
+</html>

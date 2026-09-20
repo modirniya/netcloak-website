@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What is WireGuard, and what does it mean for your phone? · NetCloak VPN</title>
+<meta name="description" content="WireGuard is a VPN protocol and the software that implements it. What that means on an Android phone: battery, roaming between wifi and mobile, and the one thing an app has to watch for.">
+<link rel="canonical" href="https://netcloak.app/blog/what-is-wireguard/">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="google-site-verification" content="QdiSCBEV68PdCPjb2iDeEWH348pYsWWqdlfs9gpHWXM">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0B1210">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#F4F7F4">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16.png">
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="NetCloak VPN">
+<meta property="og:title" content="What is WireGuard, and what does it mean for your phone? · NetCloak VPN">
+<meta property="og:description" content="WireGuard is a VPN protocol and the software that implements it. What that means on an Android phone: battery, roaming between wifi and mobile, and the one thing an app has to watch for.">
+<meta property="og:url" content="https://netcloak.app/blog/what-is-wireguard/">
+<meta property="og:image" content="https://netcloak.app/assets/img/og-blog-what-is-wireguard.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="NetCloak: A VPN that shows you the clock.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="What is WireGuard, and what does it mean for your phone? · NetCloak VPN">
+<meta name="twitter:description" content="WireGuard is a VPN protocol and the software that implements it. What that means on an Android phone: battery, roaming between wifi and mobile, and the one thing an app has to watch for.">
+<meta name="twitter:image" content="https://netcloak.app/assets/img/og-blog-what-is-wireguard.png">
+<link rel="preload" href="/assets/fonts/IBMPlexSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/IBMPlexMono-500.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "@id": "https://netcloak.app/#organization", "name": "NeuEra Apps", "legalName": "NeuEra Apps LLC", "email": "hello@neuera.app", "url": "https://neuera.app/", "logo": "https://netcloak.app/assets/img/icon-512.png"}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "@id": "https://netcloak.app/#website", "url": "https://netcloak.app/", "name": "NetCloak VPN", "publisher": {"@id": "https://netcloak.app/#organization"}}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "What is WireGuard, and what does it mean for your phone?", "description": "WireGuard is a VPN protocol and the software that implements it. What that means on an Android phone: battery, roaming between wifi and mobile, and the one thing an app has to watch for.", "datePublished": "2026-09-19", "dateModified": "2026-09-19", "author": {"@id": "https://netcloak.app/#organization"}, "publisher": {"@type": "Organization", "name": "NeuEra Apps", "logo": {"@type": "ImageObject", "url": "https://netcloak.app/assets/img/icon-512.png"}}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://netcloak.app/blog/what-is-wireguard/"}, "image": "https://netcloak.app/assets/img/og-blog-what-is-wireguard.png", "inLanguage": "en"}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://netcloak.app/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://netcloak.app/blog/"}, {"@type": "ListItem", "position": 3, "name": "What is WireGuard, and what does it mean for your phone?", "item": "https://netcloak.app/blog/what-is-wireguard/"}]}</script></head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <div class="bar">
+    <a class="brand" href="/" aria-label="NetCloak home">
+      <img src="/assets/img/icon-64.png" alt="" width="32" height="32">
+      <span>NetCloak</span>
+    </a>
+    <nav class="site-nav" aria-label="Main"><a href="/how-it-works/">How it works</a><a href="/wireguard/">WireGuard</a><a href="/transparency/">Transparency</a><a href="/faq/">FAQ</a></nav>
+    <a class="btn btn-primary btn-sm" href="https://play.google.com/store/apps/details?id=app.netcloak">Get the app</a>
+  </div>
+</header>
+<main id="main">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/blog/">Blog</a><span aria-hidden="true">/</span><span aria-current="page">What is WireGuard, and what does it mean for your phone?</span></nav>
+<section class="hero page-hero" style="grid-template-columns:1fr">
+  <div>
+    <p class="eyebrow">WireGuard, explained</p>
+    <h1>What is WireGuard, and what does it mean for your phone?</h1>
+    <p class="lede">Most explanations of WireGuard® were written for people running servers. This one is for the person holding a phone.</p>
+    <p class="byline"><span>By NeuEra Apps</span><span>Published September 19, 2026</span></p>
+    <nav class="toc" aria-label="Contents"><p>Contents</p><ol><li><a href="#a-protocol-is-not-an-app">A protocol is not an app</a></li><li><a href="#why-the-size-of-the-code-matters">Why the size of the code matters</a></li><li><a href="#the-cryptography-by-name">The cryptography, by name</a></li><li><a href="#what-a-handshake-every-two-minutes-means-for-your-battery">What a handshake every two minutes means for your battery</a></li><li><a href="#roaming-wifi-to-mobile-without-dropping">Roaming: wifi to mobile without dropping</a></li><li><a href="#the-silent-tunnel-the-one-thing-an-app-has-to-watch">The silent tunnel: the one thing an app has to watch</a></li><li><a href="#what-s-the-difference-between-vpn-and-wireguard">What&#x27;s the difference between VPN and WireGuard?</a></li><li><a href="#what-wireguard-does-not-do">What WireGuard does not do</a></li><li><a href="#how-netcloak-uses-it">How NetCloak uses it</a></li></ol></nav>
+  </div>
+</section>
+<article class="prose">
+<section style="padding-block:0;border-bottom:0">
+<p>WireGuard® is a VPN protocol and the software that implements it, created by Jason A. Donenfeld and included in the Linux kernel since version 5.6. A protocol is the set of rules two computers follow to build an encrypted tunnel between them; the software is the code that follows those rules. WireGuard is unusual in that the <a href="https://www.wireguard.com/papers/wireguard.pdf">rules fit in a short paper</a> and the reference code is small enough to read in an afternoon, which is the property everything else here follows from.</p><h2 id="a-protocol-is-not-an-app">A protocol is not an app</h2><p>When an app such as NetCloak says it uses WireGuard, it means the tunnel between your phone and the server speaks WireGuard. The app around that tunnel, with its buttons, its session clock and its ads, is the app maker's own work. Two apps can both use WireGuard and behave nothing alike, and the protocol says nothing about what the operator keeps on the server at the far end. Those are separate questions, and this article is only about the first one.</p><h2 id="why-the-size-of-the-code-matters">Why the size of the code matters</h2><p>The Linux implementation of WireGuard is a few thousand lines of code. The protocols it replaced run to hundreds of thousands. That is not a boast about elegance; it is a statement about who can check it. A security researcher can read the whole of WireGuard and hold it in their head, which is why it was reviewed thoroughly enough to be accepted into the kernel that runs most of the internet. The project lists the <a href="https://www.wireguard.com/formal-verification/">formal verification work</a> done on the protocol itself.</p><h2 id="the-cryptography-by-name">The cryptography, by name</h2><p>WireGuard does not negotiate ciphers. It uses one fixed set, chosen for being fast on ordinary processors without special hardware, which is exactly the processor in a phone. The <a href="https://www.wireguard.com/protocol/">protocol page</a> lists them; here is what each does.</p><ul><li><strong>Noise framework.</strong> The <a href="https://noiseprotocol.org/">Noise</a> handshake pattern that lets two parties who know each other's public keys agree on a shared secret in one round trip.</li><li><strong>Curve25519.</strong> The elliptic curve used for that key agreement. Your phone and the server each generate a private key, exchange public keys, and arrive at the same secret without ever sending it.</li><li><strong>ChaCha20-Poly1305.</strong> ChaCha20 scrambles every packet with that secret; Poly1305 stamps each packet with a check so a tampered packet is thrown away rather than decrypted. On a phone this runs faster than AES without a hardware helper.</li><li><strong>BLAKE2s.</strong> The hash function used inside the handshake to mix keys and derive new ones.</li></ul><h2 id="what-a-handshake-every-two-minutes-means-for-your-battery">What a handshake every two minutes means for your battery</h2><p>WireGuard rotates its session keys by performing a fresh handshake roughly every two minutes while traffic flows, and only when traffic flows. If your phone is idle, so is the tunnel: no keepalive chatter, no timers waking the radio. That is why a WireGuard tunnel left connected overnight costs noticeably less battery than the older designs that held a session open with constant heartbeats. The project's own <a href="https://www.wireguard.com/performance/">performance page</a> covers throughput; the battery effect on a phone comes from the silence.</p><h2 id="roaming-wifi-to-mobile-without-dropping">Roaming: wifi to mobile without dropping</h2><p>Older VPN protocols bind a tunnel to your IP address, so when your phone leaves the wifi and picks up mobile data the tunnel breaks and has to be rebuilt. WireGuard identifies you by your public key, not your address. When the phone moves networks, the next encrypted packet simply arrives from a new address and the server updates its notion of where you are. From the phone's side, the tunnel never went away.</p><h2 id="the-silent-tunnel-the-one-thing-an-app-has-to-watch">The silent tunnel: the one thing an app has to watch</h2><p>That same design has a consequence that most VPN apps handle badly. WireGuard has no concept of a connection being "up" or "down"; there is only the last time a handshake succeeded. If the server removes your key, or the network quietly stops delivering packets, the tunnel on your phone stays configured and keeps reporting itself as connected while carrying nothing. The protocol will never tell the app. The app has to watch the handshake age itself and decide when silence has gone on too long. NetCloak does exactly that: when a tunnel has not handshaked for three minutes on a network that is otherwise working, it ends the session and tells you, rather than showing a green shield over a dead connection.</p><div class="qa"><h2 id="what-s-the-difference-between-vpn-and-wireguard">What&#x27;s the difference between VPN and WireGuard?</h2><p>A VPN is the thing you want: an encrypted tunnel that carries your traffic to another computer before it reaches the internet. WireGuard is one way of building that tunnel, alongside OpenVPN and IKEv2. Every WireGuard app is a VPN; not every VPN uses WireGuard.</p></div><h2 id="what-wireguard-does-not-do">What WireGuard does not do</h2><p>It is worth being as exact about the limits as about the strengths, and the project is, on its <a href="https://www.wireguard.com/known-limitations/">Known Limitations page</a>.</p><ul><li><strong>It does not make you anonymous.</strong> The server at the far end sees your real address, because it has to send packets back to you. What that server keeps is the operator's decision, not the protocol's.</li><li><strong>It does not hide that you are using a VPN.</strong> WireGuard packets have a recognisable shape on the wire. Anyone watching your connection can tell a tunnel is there, even though they cannot see inside it.</li><li><strong>It is not post-quantum by default.</strong> Curve25519 would not survive a large quantum computer. The protocol has an optional pre-shared key to add a quantum-resistant layer, which most consumer apps, NetCloak included, do not use today.</li></ul><h2 id="how-netcloak-uses-it">How NetCloak uses it</h2><p>NetCloak ships the official WireGuard tunnel library for Android and nothing else: no config files to import, no QR codes, no second protocol to fall back to. When you tap connect, the app generates a fresh key for that session, the server hands back the tunnel settings, and the tunnel is up. When the session ends the key is thrown away. The rest of what the app does around the tunnel, the timed sessions and the clock, is described on the <a href="/wireguard/">WireGuard page</a> and <a href="/how-it-works/">how it works</a>.</p>
+</section>
+</article>
+
+</main>
+<footer class="site-foot">
+  <div class="foot-grid">
+    <div>
+      <p class="foot-brand">NetCloak</p>
+      <p class="foot-note">Free WireGuard® VPN for Android. No account, timed sessions,
+      one server in New York, and a plain statement of what we keep.</p>
+      <a class="badge-link" href="https://play.google.com/store/apps/details?id=app.netcloak"><img src="/assets/img/google-play-badge.png"
+        alt="Get it on Google Play" width="162" height="63"></a>
+    </div>
+    <div>
+      <p class="foot-h">Product</p>
+      <a href="/">Home</a>
+      <a href="/download/">Download</a>
+      <a href="/how-it-works/">How it works</a>
+      <a href="/no-account/">No account</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://play.google.com/store/apps/details?id=app.netcloak">Google Play listing</a>
+    </div>
+    <div>
+      <p class="foot-h">Legal</p>
+      <a href="/privacy/">Privacy Policy</a>
+      <a href="/terms/">Terms of Use</a>
+      <a href="https://legal.neuera.app/netcloak/">Version history</a>
+    </div>
+    <div>
+      <p class="foot-h">Company</p>
+      <a href="/about/">About</a>
+      <a href="/support/">Support</a>
+      <a href="/transparency/">Transparency</a>
+      <a href="mailto:hello@neuera.app">hello@neuera.app</a>
+    </div>
+  </div>
+  <p class="fineprint">© 2026 NeuEra Apps LLC · NetCloak is a product of NeuEra Apps.
+  “WireGuard” and the “WireGuard” logo are registered trademarks of Jason A. Donenfeld. Google Play and the Google Play logo are trademarks of Google LLC.</p>
+</footer>
+</body>
+</html>
