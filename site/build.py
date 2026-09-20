@@ -6,7 +6,7 @@
     python3 site/build.py --sync-legal  # refresh the mirrored legal documents, then build
     python3 site/build.py --ping        # after a deploy: tell IndexNow the sitemap changed
 
-Output lands in the repository root, which is what GitHub Pages serves. Source is this file plus
+Articles come from content.ARTICLES and land under /blog/. Output lands in the repository root, which is what GitHub Pages serves. Source is this file plus
 site/content.py. Standard library only; PIL is used if present to draw the Open Graph images and
 icons, and pyjwt only when PLAY_SA_KEY points at a service-account key, to ask the Play Developer
 API for the current version. Neither is required for an ordinary build.
@@ -180,14 +180,28 @@ def ld_app() -> dict:
     }
 
 
-def ld_breadcrumb(path: str, label: str) -> dict:
+def ld_breadcrumb(path: str, label: str, parent: tuple[str, str] | None = None) -> dict:
+    items = [{"@type": "ListItem", "position": 1, "name": "Home", "item": C.SITE + "/"}]
+    if parent:
+        items.append({"@type": "ListItem", "position": 2, "name": parent[1], "item": C.SITE + parent[0]})
+    items.append({"@type": "ListItem", "position": len(items) + 1, "name": label, "item": C.SITE + path})
+    return {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": items}
+
+
+def ld_article(path: str, A: dict, modified: str) -> dict:
     return {
         "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Home", "item": C.SITE + "/"},
-            {"@type": "ListItem", "position": 2, "name": label, "item": C.SITE + path},
-        ],
+        "@type": "Article",
+        "headline": A["h1"],
+        "description": A["desc"],
+        "datePublished": A["published"],
+        "dateModified": modified,
+        "author": {"@id": f"{C.SITE}/#organization"},
+        "publisher": {"@type": "Organization", "name": C.ORG["name"],
+                      "logo": {"@type": "ImageObject", "url": f"{C.SITE}/assets/img/icon-512.png"}},
+        "mainEntityOfPage": {"@type": "WebPage", "@id": C.SITE + path},
+        "image": f"{C.SITE}/assets/img/og-{path.strip('/').replace('/', '-')}.png",
+        "inLanguage": "en",
     }
 
 
@@ -205,14 +219,17 @@ def ld_faq() -> dict:
 def layout(*, path: str, title: str, description: str, body: str,
            ld: list[dict] | None = None, og: str = "og-home.png",
            canonical: str | None = None, nav_current: str = "",
-           in_sitemap: bool = True, extra_head: str = "", crumb: str = "") -> str:
+           in_sitemap: bool = True, extra_head: str = "", crumb: str = "",
+           crumb_parent: tuple[str, str] | None = None, og_type: str = "website") -> str:
     url = C.SITE + path
     canon = canonical or url
     blocks = [ld_org(), ld_website()] + list(ld or [])
     if crumb:
-        blocks.append(ld_breadcrumb(path, crumb))
+        blocks.append(ld_breadcrumb(path, crumb, crumb_parent))
+        mid = (f'<a href="{e(crumb_parent[0])}">{e(crumb_parent[1])}</a><span aria-hidden="true">/</span>'
+               if crumb_parent else "")
         body = (f'<nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a>'
-                f'<span aria-hidden="true">/</span><span aria-current="page">{e(crumb)}</span></nav>'
+                f'<span aria-hidden="true">/</span>{mid}<span aria-current="page">{e(crumb)}</span></nav>'
                 + body)
     ld_tags = "".join(
         f'<script type="application/ld+json">{json.dumps(b, ensure_ascii=False)}</script>'
@@ -242,7 +259,7 @@ def layout(*, path: str, title: str, description: str, body: str,
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16.png">
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<meta property="og:type" content="website">
+<meta property="og:type" content="{og_type}">
 <meta property="og:site_name" content="{e(C.NAME)} VPN">
 <meta property="og:title" content="{e(title)}">
 <meta property="og:description" content="{e(description)}">
@@ -289,6 +306,7 @@ def layout(*, path: str, title: str, description: str, body: str,
       <a href="/download/">Download</a>
       <a href="/how-it-works/">How it works</a>
       <a href="/no-account/">No account</a>
+      <a href="/blog/">Blog</a>
       <a href="{C.PLAY}">Google Play listing</a>
     </div>
     <div>
@@ -487,6 +505,22 @@ section:last-of-type{border-bottom:0}
 .prose .tiles{margin-top:18px}
 .prose .install{margin-top:36px}
 .faq-page .faq{max-width:var(--measure)}
+
+/* articles */
+.byline{font:400 13px/1.6 var(--mono);color:var(--ink-3);margin-top:14px;display:flex;flex-wrap:wrap;gap:6px 18px}
+.toc{margin-top:28px;max-width:var(--measure);border:1px solid var(--line);border-radius:12px;padding:16px 20px;background:var(--raised)}
+.toc p{font:500 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px;display:grid;gap:6px;font-size:15px}
+.toc a{color:var(--ink-2);text-decoration:none}
+.toc a:hover{color:var(--ink);text-decoration:underline}
+.prose ol{margin:14px 0 0;padding-left:22px;color:var(--ink-2);display:grid;gap:8px}
+.posts{display:grid;gap:14px;margin-top:24px;max-width:var(--measure)}
+.post{display:grid;gap:8px;border:1px solid var(--line);border-radius:12px;padding:20px 22px;background:var(--raised)}
+.post h2{font-size:clamp(20px,2.6vw,24px);margin:0}
+.post h2 a{color:var(--ink);text-decoration:none}
+.post h2 a:hover{text-decoration:underline}
+.post p{color:var(--ink-2);font-size:15px}
+.post .byline{margin-top:0}
 
 /* footer */
 .site-foot{max-width:var(--wrap);margin:24px auto 0;padding-block:40px 32px;border-top:1px solid var(--line)}
@@ -750,6 +784,96 @@ def build_pages() -> None:
 
 
 # ==================================================================================================
+# Blog — driven by content.ARTICLES
+# ==================================================================================================
+
+BLOG_PATH = "/blog/"
+
+
+def slug(text: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
+
+
+def render_article_blocks(blocks: list[tuple]) -> tuple[str, list[tuple[str, str]]]:
+    """Like render_block, but H2s (including the question boxes) get ids for the contents list."""
+    out, heads = [], []
+    for b in blocks:
+        if b[0] == "h2":
+            i = slug(b[1]); heads.append((i, b[1]))
+            out.append(f'<h2 id="{i}">{b[1]}</h2>')
+        elif b[0] == "qa":
+            i = slug(b[1]); heads.append((i, b[1]))
+            out.append(f'<div class="qa"><h2 id="{i}">{e(b[1])}</h2><p>{b[2]}</p></div>')
+        else:
+            out.append(render_block(b))
+    return "".join(out), heads
+
+
+def article_dates(path: str, A: dict) -> tuple[str, str]:
+    """(published, modified). Modified is the same value the sitemap uses, so schema and sitemap
+    never disagree; it is never earlier than the published date."""
+    modified = last_modified(path)
+    return A["published"], max(modified, A["published"])
+
+
+def pretty_date(iso: str) -> str:
+    return datetime.date.fromisoformat(iso).strftime("%B %-d, %Y")
+
+
+def build_blog() -> None:
+    for path, A in C.ARTICLES.items():
+        published, modified = article_dates(path, A)
+        body_html, heads = render_article_blocks(A["body"])
+        toc = ""
+        if len(heads) >= 4:
+            toc = ('<nav class="toc" aria-label="Contents"><p>Contents</p><ol>'
+                   + "".join(f'<li><a href="#{i}">{e(t)}</a></li>' for i, t in heads) + "</ol></nav>")
+        dates = (f'<span>Published {pretty_date(published)}</span>'
+                 + (f'<span>Updated {pretty_date(modified)}</span>' if modified != published else ""))
+        body = f"""
+<section class="hero page-hero" style="grid-template-columns:1fr">
+  <div>
+    <p class="eyebrow">{e(A['eyebrow'])}</p>
+    <h1>{e(A['h1'])}</h1>
+    <p class="lede">{e(A['lede'])}</p>
+    <p class="byline"><span>By {e(C.ORG['name'])}</span>{dates}</p>
+    {toc}
+  </div>
+</section>
+<article class="prose">
+<section style="padding-block:0;border-bottom:0">
+{body_html}
+</section>
+</article>
+"""
+        write(path.strip("/") + "/index.html", layout(
+            path=path, title=A["title"], description=A["desc"], body=body,
+            ld=[ld_article(path, A, modified)], og=f"og-{path.strip('/').replace('/', '-')}.png",
+            crumb=A["h1"], crumb_parent=(BLOG_PATH, "Blog"), og_type="article"))
+
+    posts = "".join(
+        f'<div class="post"><h2><a href="{e(p)}">{e(A["h1"])}</a></h2>'
+        f'<p class="byline"><span>{pretty_date(A["published"])}</span></p>'
+        f'<p>{e(A["desc"])}</p></div>'
+        for p, A in sorted(C.ARTICLES.items(), key=lambda kv: kv[1]["published"], reverse=True))
+    body = f"""
+<section class="hero page-hero" style="grid-template-columns:1fr">
+  <div>
+    <p class="eyebrow">Blog</p>
+    <h1>Plain answers, dated.</h1>
+    <p class="lede">{e(C.BLOG_DESC)}</p>
+  </div>
+</section>
+<section class="prose">
+  <div class="posts">{posts}</div>
+</section>
+"""
+    write("blog/index.html", layout(
+        path=BLOG_PATH, title=C.BLOG_TITLE, description=C.BLOG_DESC, body=body,
+        og="og-blog.png", crumb="Blog"))
+
+
+# ==================================================================================================
 # Legal — mirrored from legal.neuera.app, which is the source of truth
 # ==================================================================================================
 
@@ -978,6 +1102,11 @@ def build_og() -> None:
     for path, P in C.PAGES.items():
         eyebrow, headline, sub = P["og"]
         write_bytes(f"assets/img/og-{path.strip('/')}.png", og_card(eyebrow, headline, sub))
+    write_bytes("assets/img/og-blog.png", og_card(
+        "Blog", "Plain answers,\ndated.", "WireGuard explained, what makes a protocol safe,\nand how a free VPN pays for itself."))
+    for path, A in C.ARTICLES.items():
+        eyebrow, headline, sub = A["og"]
+        write_bytes(f"assets/img/og-{path.strip('/').replace('/', '-')}.png", og_card(eyebrow, headline, sub))
 
 
 # ==================================================================================================
@@ -1003,6 +1132,7 @@ def main() -> int:
     build_home()
     build_download()
     build_pages()
+    build_blog()
     build_legal()
     build_404()
     build_manifest()

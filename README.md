@@ -69,6 +69,17 @@ Open Graph card, and lists it in the sitemap. Header nav order is `NAV_ORDER`.
 `/faq/` is driven by `FAQ_ITEMS`; its visible text and its FAQPage schema come from the
 same list, so they cannot drift apart.
 
+## Adding an article
+
+Add an entry to `ARTICLES` in `site/content.py` keyed by its `/blog/…/` path, with a title,
+description, eyebrow, h1, lede, `published` date (ISO), an `og` tuple, and a body made of
+the same blocks `PAGES` uses. Paragraph text is raw HTML so a source can be linked inline.
+The build renders the article with an `Article` schema (whose `dateModified` is the same
+value the sitemap uses), a Home › Blog › title breadcrumb, a contents list once there are
+four or more headings, its own Open Graph card, and lists it on `/blog/` newest first. The
+three launch articles cite wireguard.com, the Play VpnService policy and two published
+"are free VPNs safe" pieces; every external link is checked before a deploy.
+
 ## CI
 
 `.github/workflows/lighthouse.yml` runs `site/build.py --check` and Lighthouse CI against
