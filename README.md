@@ -59,3 +59,18 @@ sitemap. Run `--sync-legal` whenever a policy is republished.
 The site uses the name descriptively and never shows the logo. Google Play and the
 Google Play logo are trademarks of Google LLC; the badge in `assets/img/` is the
 official artwork and must stay unmodified.
+
+## Adding a page
+
+Add an entry to `PAGES` in `site/content.py` (title, description, eyebrow, h1, lede, an
+`og` tuple for the share card, a `nav` slot or `None` for footer-only, and a list of
+blocks). The build renders it, adds a breadcrumb and BreadcrumbList schema, draws its
+Open Graph card, and lists it in the sitemap. Header nav order is `NAV_ORDER`.
+`/faq/` is driven by `FAQ_ITEMS`; its visible text and its FAQPage schema come from the
+same list, so they cannot drift apart.
+
+## CI
+
+`.github/workflows/lighthouse.yml` runs `site/build.py --check` and Lighthouse CI against
+`/`, `/no-account/` and `/faq/` on every push and pull request, asserting 0.95 or better
+on performance, accessibility, best practices and SEO.

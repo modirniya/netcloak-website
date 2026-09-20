@@ -59,9 +59,12 @@ def e(s: str) -> str:
 
 def nav_page(path: str, label: str) -> None:
     """Register a page in the header nav. Only pages that are built get a link, so a later
-    pass adds navigation by adding a page, never by editing a list that can go stale."""
+    pass adds navigation by adding a page, never by editing a list that can go stale.
+    Order comes from content.NAV_ORDER; anything not listed there goes to the end."""
     if (path, label) not in NAV:
         NAV.append((path, label))
+        order = {p: i for i, p in enumerate(C.NAV_ORDER)}
+        NAV.sort(key=lambda t: order.get(t[0], len(order)))
 
 
 # ==================================================================================================
@@ -177,13 +180,40 @@ def ld_app() -> dict:
     }
 
 
+def ld_breadcrumb(path: str, label: str) -> dict:
+    return {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": C.SITE + "/"},
+            {"@type": "ListItem", "position": 2, "name": label, "item": C.SITE + path},
+        ],
+    }
+
+
+def ld_faq() -> dict:
+    return {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": q,
+             "acceptedAnswer": {"@type": "Answer", "text": a}}
+            for q, a in C.FAQ_ITEMS],
+    }
+
+
 def layout(*, path: str, title: str, description: str, body: str,
            ld: list[dict] | None = None, og: str = "og-home.png",
            canonical: str | None = None, nav_current: str = "",
-           in_sitemap: bool = True, extra_head: str = "") -> str:
+           in_sitemap: bool = True, extra_head: str = "", crumb: str = "") -> str:
     url = C.SITE + path
     canon = canonical or url
     blocks = [ld_org(), ld_website()] + list(ld or [])
+    if crumb:
+        blocks.append(ld_breadcrumb(path, crumb))
+        body = (f'<nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a>'
+                f'<span aria-hidden="true">/</span><span aria-current="page">{e(crumb)}</span></nav>'
+                + body)
     ld_tags = "".join(
         f'<script type="application/ld+json">{json.dumps(b, ensure_ascii=False)}</script>'
         for b in blocks)
@@ -257,6 +287,8 @@ def layout(*, path: str, title: str, description: str, body: str,
       <p class="foot-h">Product</p>
       <a href="/">Home</a>
       <a href="/download/">Download</a>
+      <a href="/how-it-works/">How it works</a>
+      <a href="/no-account/">No account</a>
       <a href="{C.PLAY}">Google Play listing</a>
     </div>
     <div>
@@ -267,7 +299,9 @@ def layout(*, path: str, title: str, description: str, body: str,
     </div>
     <div>
       <p class="foot-h">Company</p>
-      <a href="{C.ORG['url']}">{e(C.ORG['name'])}</a>
+      <a href="/about/">About</a>
+      <a href="/support/">Support</a>
+      <a href="/transparency/">Transparency</a>
       <a href="mailto:{C.ORG['email']}">{C.ORG['email']}</a>
     </div>
   </div>
@@ -433,6 +467,27 @@ section:last-of-type{border-bottom:0}
 .legal table{border-collapse:collapse;width:100%;font-size:14px}
 .legal td,.legal th{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
 
+/* content pages */
+.crumbs{max-width:var(--wrap);margin:18px auto -34px;font:400 13px/1.4 var(--mono);color:var(--ink-3);display:flex;gap:10px}
+.crumbs a{color:var(--ink-3);text-decoration:none}
+.crumbs a:hover{color:var(--ink);text-decoration:underline}
+.page-hero{padding-block:48px 8px;border-bottom:0}
+.prose h2{margin-top:44px}
+.prose h2:first-child{margin-top:0}
+.prose p{color:var(--ink-2);margin-top:14px}
+.prose ul{margin:14px 0 0;padding-left:22px;color:var(--ink-2);display:grid;gap:8px}
+.prose ul strong{color:var(--ink);font-weight:600}
+.prose .qa{margin-top:44px;border-left:3px solid var(--accent);padding:4px 0 4px 18px}
+.prose .qa h2{margin-top:0;font-size:clamp(20px,2.6vw,26px)}
+.prose .qa p{color:var(--ink);font-size:17px}
+.prose .keep{margin-top:8px}
+.prose dl.spec{margin:14px 0 0;display:grid;grid-template-columns:max-content 1fr;gap:10px 22px;max-width:var(--measure)}
+.prose dl.spec dt{font:500 13px/1.6 var(--mono);color:var(--ink)}
+.prose dl.spec dd{margin:0;color:var(--ink-2);font-size:15px}
+.prose .tiles{margin-top:18px}
+.prose .install{margin-top:36px}
+.faq-page .faq{max-width:var(--measure)}
+
 /* footer */
 .site-foot{max-width:var(--wrap);margin:24px auto 0;padding-block:40px 32px;border-top:1px solid var(--line)}
 .foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:28px}
@@ -445,12 +500,14 @@ section:last-of-type{border-bottom:0}
 
 @media (max-width:820px){
   .hero{grid-template-columns:1fr;gap:28px}
+  .crumbs{margin-bottom:-26px}
   .foot-grid{grid-template-columns:1fr 1fr}
   .site-nav{display:none}
 }
 @media (max-width:480px){
   .foot-grid{grid-template-columns:1fr}
-  .facts{grid-template-columns:1fr;gap:2px}
+  .facts,.prose dl.spec{grid-template-columns:1fr;gap:2px}
+  .prose dl.spec dt{margin-top:10px}
   .facts dt{margin-top:10px}
   .modes{grid-template-columns:1fr}
 }
@@ -492,7 +549,6 @@ def session_card() -> str:
 
 
 def build_home() -> None:
-    nav_page("/", "Home")
     H = C.HERO
     tiles = "".join(
         f'<div class="tile {k}"><span class="x">{e(n)}</span>'
@@ -514,7 +570,7 @@ def build_home() -> None:
     <div class="actions">
       <a class="btn btn-primary" href="{C.PLAY}">{e(H['cta'])}</a>
     </div>
-    <p class="small">{e(H['small'])}<a href="#keep">{e(H['small_link'])}</a>.</p>
+    <p class="small">{e(H['small'])}<a href="/transparency/">{e(H['small_link'])}</a>.</p>
   </div>
   {session_card()}
 </section>
@@ -522,7 +578,8 @@ def build_home() -> None:
 <section id="no-account">
   <p class="eyebrow">{e(C.NO_ACCOUNT['eyebrow'])}</p>
   <h2>{e(C.NO_ACCOUNT['h2'])}</h2>
-  <div class="stack"><p>{e(C.NO_ACCOUNT['p'])}</p></div>
+  <div class="stack"><p>{e(C.NO_ACCOUNT['p'])}</p>
+  <p>More on the <a href="/no-account/">no-account page</a>.</p></div>
 </section>
 
 <section id="sessions">
@@ -530,7 +587,8 @@ def build_home() -> None:
   <h2>{e(C.SESSIONS['h2'])}</h2>
   <p class="lede">{e(C.SESSIONS['lede'])}</p>
   <div class="tiles">{tiles}</div>
-  <div class="stack"><p>{e(C.SESSIONS['extend'])}</p><p>{e(C.SESSIONS['ads'])}</p></div>
+  <div class="stack"><p>{e(C.SESSIONS['extend'])}</p><p>{e(C.SESSIONS['ads'])}</p>
+  <p>Every reason a session can end early is on the <a href="/how-it-works/">how it works page</a>.</p></div>
 </section>
 
 <section id="protects">
@@ -552,7 +610,7 @@ def build_home() -> None:
   <div class="stack">
     <p>{e(C.WIREGUARD['p1'])}</p>
     <p>{e(C.WIREGUARD['p2'])}</p>
-    <p>Read more at the <a href="{C.WIREGUARD_URL}">{e(C.WIREGUARD['link_text'])}</a>.</p>
+    <p>More on our <a href="/wireguard/">WireGuard page</a>, or at the <a href="{C.WIREGUARD_URL}">{e(C.WIREGUARD['link_text'])}</a>.</p>
   </div>
 </section>
 
@@ -560,6 +618,7 @@ def build_home() -> None:
   <p class="eyebrow">Questions</p>
   <h2>Asked plainly, answered plainly.</h2>
   <div class="faq">{faq}</div>
+  <p class="after">Eleven more on the <a href="/faq/">questions page</a>.</p>
 </section>
 
 <section id="install">
@@ -578,7 +637,6 @@ def build_home() -> None:
 
 
 def build_download() -> None:
-    nav_page("/download/", "Download")
     D = C.DOWNLOAD
     body = f"""
 <section class="hero" style="grid-template-columns:1fr;padding-block:48px 40px">
@@ -615,6 +673,80 @@ def build_download() -> None:
     write("download/index.html", layout(
         path="/download/", title=C.DOWNLOAD_TITLE, description=C.DOWNLOAD_DESC, body=body,
         ld=[ld_app()], og="og-download.png", nav_current="/download/"))
+
+
+# ==================================================================================================
+# Content pages — driven entirely by content.PAGES
+# ==================================================================================================
+
+def mode_tiles() -> str:
+    return "".join(
+        f'<div class="tile {k}"><span class="x">{e(n)}</span>'
+        f'<span class="n">{m}<small>min</small></span><span class="x">{x} speed</span>'
+        f'<p>{e(u)}</p></div>'
+        for k, n, m, x, u in C.MODES)
+
+
+def install_block() -> str:
+    return (f'<div class="install"><a class="badge-link" href="{C.PLAY}">'
+            f'<img src="/assets/img/google-play-badge.png" alt="Get it on Google Play" '
+            f'width="194" height="75"></a><p>{e(C.INSTALL["p"])}</p></div>')
+
+
+def render_block(b: tuple) -> str:
+    kind = b[0]
+    if kind == "h2":
+        return f"<h2>{b[1]}</h2>"
+    if kind == "p":
+        return f"<p>{b[1]}</p>"
+    if kind == "qa":
+        return f'<div class="qa"><h2>{e(b[1])}</h2><p>{b[2]}</p></div>'
+    if kind == "ul":
+        return "<ul>" + "".join(f"<li>{i}</li>" for i in b[1]) + "</ul>"
+    if kind == "dl":
+        return ('<dl class="spec">' + "".join(f"<dt>{e(t)}</dt><dd>{d}</dd>" for t, d in b[1])
+                + "</dl>")
+    if kind == "keep":
+        return f'<p class="keep">{e(C.TRANSPARENCY)}</p>'
+    if kind == "link":
+        return f'<p>{b[1]}<a href="{b[2]}">{e(b[3])}</a>{b[4]}</p>'
+    if kind == "modes":
+        return f'<div class="tiles">{mode_tiles()}</div>'
+    if kind == "install":
+        return install_block()
+    if kind == "faq":
+        return '<div class="faq">' + "".join(
+            f"<details><summary>{e(q)}</summary><p>{e(a)}</p></details>"
+            for q, a in C.FAQ_ITEMS) + "</div>"
+    raise SystemExit(f"unknown block {kind!r}")
+
+
+def register_nav() -> None:
+    """Runs before any page is rendered, so every page sees the complete header nav. Only
+    pages that build_pages() actually emits are registered, which keeps the nav honest."""
+    for path, P in C.PAGES.items():
+        if P.get("nav") is not None:
+            nav_page(path, P["eyebrow"])
+
+
+def build_pages() -> None:
+    for path, P in C.PAGES.items():
+        body = f"""
+<section class="hero page-hero" style="grid-template-columns:1fr">
+  <div>
+    <p class="eyebrow">{e(P['eyebrow'])}</p>
+    <h1>{e(P['h1'])}</h1>
+    <p class="lede">{e(P['lede'])}</p>
+  </div>
+</section>
+<section class="prose{' faq-page' if path == '/faq/' else ''}">
+{"".join(render_block(b) for b in P['body'])}
+</section>
+"""
+        ld = [ld_faq()] if path == "/faq/" else []
+        write(path.strip("/") + "/index.html", layout(
+            path=path, title=P["title"], description=P["desc"], body=body, ld=ld,
+            og=f"og-{path.strip('/')}.png", nav_current=path, crumb=P["eyebrow"]))
 
 
 # ==================================================================================================
@@ -843,6 +975,9 @@ def build_og() -> None:
         "Download",
         "Get NetCloak on\nGoogle Play.",
         f"Free. Android 8.0 or later. Version {VERSION_NAME}.\nNo APK downloads, by design."))
+    for path, P in C.PAGES.items():
+        eyebrow, headline, sub = P["og"]
+        write_bytes(f"assets/img/og-{path.strip('/')}.png", og_card(eyebrow, headline, sub))
 
 
 # ==================================================================================================
@@ -864,8 +999,10 @@ def main() -> int:
     write(".nojekyll", "")
     build_icons()
     build_og()
+    register_nav()
     build_home()
     build_download()
+    build_pages()
     build_legal()
     build_404()
     build_manifest()
